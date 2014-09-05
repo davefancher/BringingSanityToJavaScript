@@ -1,5 +1,5 @@
 ﻿#viewTabs {
-  font-size: 18px;
+  font-size: 22px;
 }
 .tab-content p {
   margin-top: 15px;
@@ -7,5 +7,12 @@
 .tab-pane p,
 .tab-pane pre {
   font-size: 18px;
+}
+pre {
+  background-color: #FAFAFA;
+}
+.dropdown-menu li a {
+  font-size: 18px;
+  padding: 15px 25px 15px 25px;
 }
 /*# sourceMappingURL=app.css.map */

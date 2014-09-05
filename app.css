@@ -1,0 +1,11 @@
+﻿#viewTabs {
+  font-size: 18px;
+}
+.tab-content p {
+  margin-top: 15px;
+}
+.tab-pane p,
+.tab-pane pre {
+  font-size: 18px;
+}
+/*# sourceMappingURL=app.css.map */

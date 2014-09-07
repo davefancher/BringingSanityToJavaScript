@@ -1,14 +1,15 @@
-﻿/// <reference path="Scripts/ArrowFunctionExpressions.ts" />
-/// <reference path="Scripts/OptionalAndDefaultParameters.ts" />
-/// <reference path="Scripts/FunctionOverloading.ts" />
-/// <reference path="Scripts/StandardEnumerations.ts" />
-/// <reference path="Scripts/ComputedMemberEnums.ts" />
-/// <reference path="Scripts/Classes.ts" />
-/// <reference path="Scripts/Accessors.ts" />
-/// <reference path="Scripts/ParameterProperties.ts" />
-/// <reference path="Scripts/Interfaces.ts" />
-/// <reference path="Scripts/TypeCompatibility.ts" />
-/// <reference path="Scripts/FunctionInterfaces.ts" />
+﻿/// <reference path="Demos/ArrowFunctionExpressions.ts" />
+/// <reference path="Demos/DefaultParameters.ts" />
+/// <reference path="Demos/OptionalParameters.ts" />
+/// <reference path="Demos/FunctionOverloading.ts" />
+/// <reference path="Demos/StandardEnumerations.ts" />
+/// <reference path="Demos/ComputedMemberEnums.ts" />
+/// <reference path="Demos/Classes.ts" />
+/// <reference path="Demos/Accessors.ts" />
+/// <reference path="Demos/ParameterProperties.ts" />
+/// <reference path="Demos/Interfaces.ts" />
+/// <reference path="Demos/TypeCompatibility.ts" />
+/// <reference path="Demos/FunctionInterfaces.ts" />
 
 //#region Demo Setup
 
@@ -20,7 +21,8 @@ interface Action<TOut> {
 
 enum DemoType {
   ArrowFunctionExpressions,
-  OptionalAndDefaultParameters,
+  DefaultParameters,
+  OptionalParameters,
   FunctionOverloading,
   StandardEnumerations,
   ComputedMemberEnums,
@@ -32,41 +34,22 @@ enum DemoType {
   FunctionInterfaces
 }
 
+var demoMapping = {};
+demoMapping[DemoType.ArrowFunctionExpressions] = ArrowFunctionExpressions.RunDemo;
+demoMapping[DemoType.DefaultParameters] = DefaultParameters.RunDemo;
+demoMapping[DemoType.OptionalParameters] = OptionalParameters.RunDemo;
+demoMapping[DemoType.FunctionOverloading] = FunctionOverloading.RunDemo;
+demoMapping[DemoType.StandardEnumerations] = StandardEnumerations.RunDemo;
+demoMapping[DemoType.ComputedMemberEnums] = ComputedMemberEnums.RunDemo;
+demoMapping[DemoType.Classes] = Classes.RunDemo;
+demoMapping[DemoType.Accessors] = Accessors.RunDemo;
+demoMapping[DemoType.ParameterProperties] = ParameterProperties.RunDemo;
+demoMapping[DemoType.Interfaces] = Interfaces.RunDemo;
+demoMapping[DemoType.TypeCompatibility] = TypeCompatibility.RunDemo;
+demoMapping[DemoType.FunctionInterfaces] = FunctionInterfaces.RunDemo;
+
 function getDemo(demo): Action<string> {
-  switch (demo) {
-    case DemoType.ArrowFunctionExpressions:
-      return ArrowFunctionExpressions.RunDemo;
-
-    case DemoType.OptionalAndDefaultParameters:
-      return OptionalAndDefaultParameters.RunDemo;
-
-    case DemoType.FunctionOverloading:
-      return FunctionOverloading.RunDemo;
-
-    case DemoType.StandardEnumerations:
-      return StandardEnumerations.RunDemo;
-
-    case DemoType.ComputedMemberEnums:
-      return ComputedMemberEnums.RunDemo;
-
-    case DemoType.Classes:
-      return Classes.RunDemo;
-
-    case DemoType.Accessors:
-      return Accessors.RunDemo;
-
-    case DemoType.ParameterProperties:
-      return ParameterProperties.RunDemo;
-
-    case DemoType.Interfaces:
-      return Interfaces.RunDemo;
-
-    case DemoType.TypeCompatibility:
-      return TypeCompatibility.RunDemo;
-
-    case DemoType.FunctionInterfaces:
-      return FunctionInterfaces.RunDemo;
-  }
+  if (demoMapping.hasOwnProperty(demo)) return demoMapping[demo]
 
   throw "Unknown option";
 }
@@ -76,26 +59,27 @@ var escape = (text: string) => text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 var wrapJS = content => "<pre>" + content + "</pre>"
 var formatScriptClean = text => wrapJS(escape(text));
 var formatScript = text => wrapJS(text);
+var requests = [
+    { extension: "html", target: "descriptionView", formatter: xhr => xhr },
+    { extension: "ts", target: "typeScriptSourceView", formatter: formatScriptClean },
+    { extension: "js", target: "javaScriptSourceView", formatter: formatScriptClean } ];
 
-var makeHttpRequest = (uri, target) => {
+var makeHttpRequest = (uri, target, format) => {
   $.ajax({
     url: uri,
-    success: xhr => target.html(formatScriptClean(xhr)),
+    success: xhr => target.html(format(xhr)),
     error: xhr => target.html(xhr)
   });
 };
 
 var runDemo = (type: DemoType) => {
-  var demo = getDemo(type);
-
-  $("#viewTabs a[href=#typeScriptSource]").tab("show");
-
-  $("#outputView").html(formatScript(demo()));
+  $("#viewTabs a[href=#description]").tab("show");
 
   var baseFileName = DemoType[type];
 
-  makeHttpRequest("Scripts/" + baseFileName + ".ts", $("#typeScriptSourceView"));
-  makeHttpRequest("Scripts/" + baseFileName + ".js", $("#javaScriptSourceView"));
+  requests.forEach(r => makeHttpRequest("Demos/" + baseFileName + "." + r.extension, $("#" + r.target), r.formatter));
+
+  $("#outputView").html(formatScript(getDemo(type)()));
 };
 
 var attachClickHandler = (buttonId, demoType: DemoType) => {
@@ -109,7 +93,8 @@ var attachClickHandler = (buttonId, demoType: DemoType) => {
 
 window.onload = () => {
   attachClickHandler("arrowFunctionExpressionsButton", DemoType.ArrowFunctionExpressions);
-  attachClickHandler("optionalAndDefaultParametersButton", DemoType.OptionalAndDefaultParameters);
+  attachClickHandler("defaultParametersButton", DemoType.DefaultParameters);
+  attachClickHandler("optionalParametersButton", DemoType.OptionalParameters);
   attachClickHandler("functionOverloadingButton", DemoType.FunctionOverloading);
   attachClickHandler("standardEnumsButton", DemoType.StandardEnumerations);
   attachClickHandler("computedMemberEnumsButton", DemoType.ComputedMemberEnums);

@@ -7,17 +7,18 @@
     <title>TypeScript: Bringing Sanity to JavaScript</title>
     <link rel="stylesheet" href="content/bootstrap.css" type="text/css" />
     <link rel="stylesheet" href="app.css" type="text/css" />
-    <script src="Scripts/ArrowFunctionExpressions.js"></script>
-    <script src="Scripts/OptionalAndDefaultParameters.js"></script>
-    <script src="Scripts/FunctionOverloading.js"></script>
-    <script src="Scripts/StandardEnumerations.js"></script>
-    <script src="Scripts/ComputedMemberEnums.js"></script>
-    <script src="Scripts/Classes.js"></script>
-    <script src="Scripts/Accessors.js"></script>
-    <script src="Scripts/ParameterProperties.js"></script>
-    <script src="Scripts/Interfaces.js"></script>
-    <script src="Scripts/TypeCompatibility.js"></script>
-    <script src="Scripts/FunctionInterfaces.js"></script>
+    <script src="Demos/ArrowFunctionExpressions.js"></script>
+    <script src="Demos/DefaultParameters.js"></script>
+    <script src="Demos/OptionalParameters.js"></script>
+    <script src="Demos/FunctionOverloading.js"></script>
+    <script src="Demos/StandardEnumerations.js"></script>
+    <script src="Demos/ComputedMemberEnums.js"></script>
+    <script src="Demos/Classes.js"></script>
+    <script src="Demos/Accessors.js"></script>
+    <script src="Demos/ParameterProperties.js"></script>
+    <script src="Demos/Interfaces.js"></script>
+    <script src="Demos/TypeCompatibility.js"></script>
+    <script src="Demos/FunctionInterfaces.js"></script>
     <script src="Scripts/jquery-1.9.0.js"></script>
     <script src="Scripts/bootstrap.js"></script>
     <script src="app.js"></script>
@@ -33,7 +34,8 @@
                     </button>
                     <ul class="dropdown-menu">
                         <li><a href="#" id="arrowFunctionExpressionsButton">Arrow Function Expressions</a></li>
-                        <li><a href="#" id="optionalAndDefaultParametersButton">Optional &amp; Default Parameters</a></li>
+                        <li><a href="#" id="defaultParametersButton">Default Parameters</a></li>
+                        <li><a href="#" id="optionalParametersButton">Optional Parameters</a></li>
                         <li><a href="#" id="functionOverloadingButton">Function Overloading</a></li>
                         <li><a href="#" id="standardEnumsButton">Standard Enumerations</a></li>
                         <li><a href="#" id="computedMemberEnumsButton">Computed Member Enumerations</a></li>
@@ -51,21 +53,25 @@
         <div class="row">
             <div class="col-sm-12">
                 <p></p>
-                <ul id="viewTabs" class="nav nav-tabs">
-                    <li class="active"><a href="#typeScriptSource" data-toggle="tab">TypeScript Source</a></li>
-                    <li><a href="#javaScriptSource" data-toggle="tab">JavaScript Source</a></li>
+                <ul id="viewTabs" class="nav nav-pills">
+                    <li class="active"><a href="#description" data-toggle="tab">Description</a></li>
+                    <li><a href="#typeScriptSource" data-toggle="tab">Example</a></li>
+                    <li><a href="#javaScriptSource" data-toggle="tab">JavaScript</a></li>
                     <li><a href="#output" data-toggle="tab">Output</a></li>
                 </ul>
 
                 <div class="tab-content">
-                    <div class="tab-pane fade in active" id="typeScriptSource">
-                        <div id="typeScriptSourceView"><p>Select an example to display the TypeScript Source Here</p></div>
+                    <div class="tab-pane fade in active" id="description">
+                        <div id="descriptionView"><p>Select an example to display the description here</p></div>
+                    </div>
+                    <div class="tab-pane fade" id="typeScriptSource">
+                        <div id="typeScriptSourceView"><p>Select an example to display the TypeScript Source here</p></div>
                     </div>
                     <div class="tab-pane fade" id="javaScriptSource">
-                        <div id="javaScriptSourceView"><p>Select an example to display the JavaScript Source Here</p></div>
+                        <div id="javaScriptSourceView"><p>Select an example to display the JavaScript Source here</p></div>
                     </div>
                     <div class="tab-pane fade" id="output">
-                        <div id="outputView"><p>Select an example to display the Output Here</p></div>
+                        <div id="outputView"><p>Select an example to display the Output here</p></div>
                     </div>
                 </div>
             </div>

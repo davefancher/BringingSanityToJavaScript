@@ -1,65 +1,49 @@
-﻿/// <reference path="Scripts/ArrowFunctionExpressions.ts" />
-/// <reference path="Scripts/OptionalAndDefaultParameters.ts" />
-/// <reference path="Scripts/FunctionOverloading.ts" />
-/// <reference path="Scripts/StandardEnumerations.ts" />
-/// <reference path="Scripts/ComputedMemberEnums.ts" />
-/// <reference path="Scripts/Classes.ts" />
-/// <reference path="Scripts/Accessors.ts" />
-/// <reference path="Scripts/ParameterProperties.ts" />
-/// <reference path="Scripts/Interfaces.ts" />
-/// <reference path="Scripts/TypeCompatibility.ts" />
-/// <reference path="Scripts/FunctionInterfaces.ts" />
+﻿/// <reference path="Demos/ArrowFunctionExpressions.ts" />
+/// <reference path="Demos/DefaultParameters.ts" />
+/// <reference path="Demos/OptionalParameters.ts" />
+/// <reference path="Demos/FunctionOverloading.ts" />
+/// <reference path="Demos/StandardEnumerations.ts" />
+/// <reference path="Demos/ComputedMemberEnums.ts" />
+/// <reference path="Demos/Classes.ts" />
+/// <reference path="Demos/Accessors.ts" />
+/// <reference path="Demos/ParameterProperties.ts" />
+/// <reference path="Demos/Interfaces.ts" />
+/// <reference path="Demos/TypeCompatibility.ts" />
+/// <reference path="Demos/FunctionInterfaces.ts" />
 
 var DemoType;
 (function (DemoType) {
     DemoType[DemoType["ArrowFunctionExpressions"] = 0] = "ArrowFunctionExpressions";
-    DemoType[DemoType["OptionalAndDefaultParameters"] = 1] = "OptionalAndDefaultParameters";
-    DemoType[DemoType["FunctionOverloading"] = 2] = "FunctionOverloading";
-    DemoType[DemoType["StandardEnumerations"] = 3] = "StandardEnumerations";
-    DemoType[DemoType["ComputedMemberEnums"] = 4] = "ComputedMemberEnums";
-    DemoType[DemoType["Classes"] = 5] = "Classes";
-    DemoType[DemoType["Accessors"] = 6] = "Accessors";
-    DemoType[DemoType["ParameterProperties"] = 7] = "ParameterProperties";
-    DemoType[DemoType["Interfaces"] = 8] = "Interfaces";
-    DemoType[DemoType["TypeCompatibility"] = 9] = "TypeCompatibility";
-    DemoType[DemoType["FunctionInterfaces"] = 10] = "FunctionInterfaces";
+    DemoType[DemoType["DefaultParameters"] = 1] = "DefaultParameters";
+    DemoType[DemoType["OptionalParameters"] = 2] = "OptionalParameters";
+    DemoType[DemoType["FunctionOverloading"] = 3] = "FunctionOverloading";
+    DemoType[DemoType["StandardEnumerations"] = 4] = "StandardEnumerations";
+    DemoType[DemoType["ComputedMemberEnums"] = 5] = "ComputedMemberEnums";
+    DemoType[DemoType["Classes"] = 6] = "Classes";
+    DemoType[DemoType["Accessors"] = 7] = "Accessors";
+    DemoType[DemoType["ParameterProperties"] = 8] = "ParameterProperties";
+    DemoType[DemoType["Interfaces"] = 9] = "Interfaces";
+    DemoType[DemoType["TypeCompatibility"] = 10] = "TypeCompatibility";
+    DemoType[DemoType["FunctionInterfaces"] = 11] = "FunctionInterfaces";
 })(DemoType || (DemoType = {}));
 
+var demoMapping = {};
+demoMapping[0 /* ArrowFunctionExpressions */] = ArrowFunctionExpressions.RunDemo;
+demoMapping[1 /* DefaultParameters */] = DefaultParameters.RunDemo;
+demoMapping[2 /* OptionalParameters */] = OptionalParameters.RunDemo;
+demoMapping[3 /* FunctionOverloading */] = FunctionOverloading.RunDemo;
+demoMapping[4 /* StandardEnumerations */] = StandardEnumerations.RunDemo;
+demoMapping[5 /* ComputedMemberEnums */] = ComputedMemberEnums.RunDemo;
+demoMapping[6 /* Classes */] = Classes.RunDemo;
+demoMapping[7 /* Accessors */] = Accessors.RunDemo;
+demoMapping[8 /* ParameterProperties */] = ParameterProperties.RunDemo;
+demoMapping[9 /* Interfaces */] = Interfaces.RunDemo;
+demoMapping[10 /* TypeCompatibility */] = TypeCompatibility.RunDemo;
+demoMapping[11 /* FunctionInterfaces */] = FunctionInterfaces.RunDemo;
+
 function getDemo(demo) {
-    switch (demo) {
-        case 0 /* ArrowFunctionExpressions */:
-            return ArrowFunctionExpressions.RunDemo;
-
-        case 1 /* OptionalAndDefaultParameters */:
-            return OptionalAndDefaultParameters.RunDemo;
-
-        case 2 /* FunctionOverloading */:
-            return FunctionOverloading.RunDemo;
-
-        case 3 /* StandardEnumerations */:
-            return StandardEnumerations.RunDemo;
-
-        case 4 /* ComputedMemberEnums */:
-            return ComputedMemberEnums.RunDemo;
-
-        case 5 /* Classes */:
-            return Classes.RunDemo;
-
-        case 6 /* Accessors */:
-            return Accessors.RunDemo;
-
-        case 7 /* ParameterProperties */:
-            return ParameterProperties.RunDemo;
-
-        case 8 /* Interfaces */:
-            return Interfaces.RunDemo;
-
-        case 9 /* TypeCompatibility */:
-            return TypeCompatibility.RunDemo;
-
-        case 10 /* FunctionInterfaces */:
-            return FunctionInterfaces.RunDemo;
-    }
+    if (demoMapping.hasOwnProperty(demo))
+        return demoMapping[demo];
 
     throw "Unknown option";
 }
@@ -77,12 +61,18 @@ var formatScriptClean = function (text) {
 var formatScript = function (text) {
     return wrapJS(text);
 };
+var requests = [
+    { extension: "html", target: "descriptionView", formatter: function (xhr) {
+            return xhr;
+        } },
+    { extension: "ts", target: "typeScriptSourceView", formatter: formatScriptClean },
+    { extension: "js", target: "javaScriptSourceView", formatter: formatScriptClean }];
 
-var makeHttpRequest = function (uri, target) {
+var makeHttpRequest = function (uri, target, format) {
     $.ajax({
         url: uri,
         success: function (xhr) {
-            return target.html(formatScriptClean(xhr));
+            return target.html(format(xhr));
         },
         error: function (xhr) {
             return target.html(xhr);
@@ -91,16 +81,15 @@ var makeHttpRequest = function (uri, target) {
 };
 
 var runDemo = function (type) {
-    var demo = getDemo(type);
-
-    $("#viewTabs a[href=#typeScriptSource]").tab("show");
-
-    $("#outputView").html(formatScript(demo()));
+    $("#viewTabs a[href=#description]").tab("show");
 
     var baseFileName = DemoType[type];
 
-    makeHttpRequest("Scripts/" + baseFileName + ".ts", $("#typeScriptSourceView"));
-    makeHttpRequest("Scripts/" + baseFileName + ".js", $("#javaScriptSourceView"));
+    requests.forEach(function (r) {
+        return makeHttpRequest("Demos/" + baseFileName + "." + r.extension, $("#" + r.target), r.formatter);
+    });
+
+    $("#outputView").html(formatScript(getDemo(type)()));
 };
 
 var attachClickHandler = function (buttonId, demoType) {
@@ -114,15 +103,16 @@ var attachClickHandler = function (buttonId, demoType) {
 
 window.onload = function () {
     attachClickHandler("arrowFunctionExpressionsButton", 0 /* ArrowFunctionExpressions */);
-    attachClickHandler("optionalAndDefaultParametersButton", 1 /* OptionalAndDefaultParameters */);
-    attachClickHandler("functionOverloadingButton", 2 /* FunctionOverloading */);
-    attachClickHandler("standardEnumsButton", 3 /* StandardEnumerations */);
-    attachClickHandler("computedMemberEnumsButton", 4 /* ComputedMemberEnums */);
-    attachClickHandler("classesButton", 5 /* Classes */);
-    attachClickHandler("accessorsButton", 6 /* Accessors */);
-    attachClickHandler("parameterPropertiesButton", 7 /* ParameterProperties */);
-    attachClickHandler("interfacesButton", 8 /* Interfaces */);
-    attachClickHandler("typeCompatibilityButton", 9 /* TypeCompatibility */);
-    attachClickHandler("functionInterfacesButton", 10 /* FunctionInterfaces */);
+    attachClickHandler("defaultParametersButton", 1 /* DefaultParameters */);
+    attachClickHandler("optionalParametersButton", 2 /* OptionalParameters */);
+    attachClickHandler("functionOverloadingButton", 3 /* FunctionOverloading */);
+    attachClickHandler("standardEnumsButton", 4 /* StandardEnumerations */);
+    attachClickHandler("computedMemberEnumsButton", 5 /* ComputedMemberEnums */);
+    attachClickHandler("classesButton", 6 /* Classes */);
+    attachClickHandler("accessorsButton", 7 /* Accessors */);
+    attachClickHandler("parameterPropertiesButton", 8 /* ParameterProperties */);
+    attachClickHandler("interfacesButton", 9 /* Interfaces */);
+    attachClickHandler("typeCompatibilityButton", 10 /* TypeCompatibility */);
+    attachClickHandler("functionInterfacesButton", 11 /* FunctionInterfaces */);
 };
 //# sourceMappingURL=app.js.map

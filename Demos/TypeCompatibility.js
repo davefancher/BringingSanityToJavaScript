@@ -10,9 +10,14 @@
             } };
     }
 
+    function createRectangle(width, height) {
+        return { getArea: function () {
+                return width * height;
+            } };
+    }
+
     function RunDemo() {
-        var radius = 2;
-        return describeArea(createCircle(radius));
+        return describeArea(createCircle(2)) + "<br />" + describeArea(createRectangle(2, 3));
     }
     TypeCompatibility.RunDemo = RunDemo;
 })(TypeCompatibility || (TypeCompatibility = {}));

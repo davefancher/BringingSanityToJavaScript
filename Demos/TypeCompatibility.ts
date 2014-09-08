@@ -8,11 +8,15 @@
   }
 
   function createCircle(radius: number) {
-    return { getArea: () => Math.PI * Math.pow(radius, 2) }
+    return { getArea: () => Math.PI * Math.pow(radius, 2) };
+  }
+
+  function createRectangle(width: number, height: number) {
+    return { getArea: () => width * height };
   }
 
   export function RunDemo() {
-    var radius = 2;
-    return describeArea(createCircle(radius));
+    return describeArea(createCircle(2)) + "<br />" +
+           describeArea(createRectangle(2, 3));
   }
 } 

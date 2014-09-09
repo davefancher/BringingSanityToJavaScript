@@ -1,6 +1,7 @@
 ﻿/// <reference path="Demos/ArrowFunctionExpressions/Example.ts" />
 /// <reference path="Demos/DefaultParameters/Example.ts" />
 /// <reference path="Demos/OptionalParameters/Example.ts" />
+/// <reference path="Demos/RestParameters/Example.ts" />
 /// <reference path="Demos/FunctionOverloading/Example.ts" />
 /// <reference path="Demos/StandardEnumerations/Example.ts" />
 /// <reference path="Demos/ComputedMemberEnums/Example.ts" />
@@ -23,6 +24,7 @@ enum DemoType {
   ArrowFunctionExpressions,
   DefaultParameters,
   OptionalParameters,
+  RestParameters,
   FunctionOverloading,
   StandardEnumerations,
   ComputedMemberEnums,
@@ -38,6 +40,7 @@ var demoMapping = {};
 demoMapping[DemoType.ArrowFunctionExpressions] = ArrowFunctionExpressions.RunDemo;
 demoMapping[DemoType.DefaultParameters] = DefaultParameters.RunDemo;
 demoMapping[DemoType.OptionalParameters] = OptionalParameters.RunDemo;
+demoMapping[DemoType.RestParameters] = RestParameters.RunDemo;
 demoMapping[DemoType.FunctionOverloading] = FunctionOverloading.RunDemo;
 demoMapping[DemoType.StandardEnumerations] = StandardEnumerations.RunDemo;
 demoMapping[DemoType.ComputedMemberEnums] = ComputedMemberEnums.RunDemo;
@@ -95,6 +98,7 @@ window.onload = () => {
   attachClickHandler("arrowFunctionExpressionsButton", DemoType.ArrowFunctionExpressions);
   attachClickHandler("defaultParametersButton", DemoType.DefaultParameters);
   attachClickHandler("optionalParametersButton", DemoType.OptionalParameters);
+  attachClickHandler("restParametersButton", DemoType.RestParameters);
   attachClickHandler("functionOverloadingButton", DemoType.FunctionOverloading);
   attachClickHandler("standardEnumsButton", DemoType.StandardEnumerations);
   attachClickHandler("computedMemberEnumsButton", DemoType.ComputedMemberEnums);

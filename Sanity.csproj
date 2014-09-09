@@ -38,6 +38,7 @@
     <Content Include="Demos\Interfaces\Description.html" />
     <Content Include="Demos\OptionalParameters\Description.html" />
     <Content Include="Demos\ParameterProperties\Description.html" />
+    <Content Include="Demos\RestParameters\Description.html" />
     <Content Include="Demos\StandardEnumerations\Description.html" />
     <Content Include="Demos\TypeCompatibility\Description.html" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -67,6 +68,7 @@
     <TypeScriptCompile Include="Demos\Interfaces\Example.ts" />
     <TypeScriptCompile Include="Demos\OptionalParameters\Example.ts" />
     <TypeScriptCompile Include="Demos\ParameterProperties\Example.ts" />
+    <TypeScriptCompile Include="Demos\RestParameters\Example.ts" />
     <TypeScriptCompile Include="Demos\StandardEnumerations\Example.ts" />
     <TypeScriptCompile Include="Demos\TypeCompatibility\Example.ts" />
   </ItemGroup>

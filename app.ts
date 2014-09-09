@@ -11,6 +11,7 @@
 /// <reference path="Demos/Interfaces/Example.ts" />
 /// <reference path="Demos/TypeCompatibility/Example.ts" />
 /// <reference path="Demos/FunctionInterfaces/Example.ts" />
+/// <reference path="Demos/AmbientDeclarations/Example.ts" />
 
 //#region Demo Setup
 
@@ -33,7 +34,8 @@ enum DemoType {
   ParameterProperties,
   Interfaces,
   TypeCompatibility,
-  FunctionInterfaces
+  FunctionInterfaces,
+  AmbientDeclarations
 }
 
 var demoMapping = {};
@@ -50,6 +52,7 @@ demoMapping[DemoType.ParameterProperties] = ParameterProperties.RunDemo;
 demoMapping[DemoType.Interfaces] = Interfaces.RunDemo;
 demoMapping[DemoType.TypeCompatibility] = TypeCompatibility.RunDemo;
 demoMapping[DemoType.FunctionInterfaces] = FunctionInterfaces.RunDemo;
+demoMapping[DemoType.AmbientDeclarations] = AmbientDeclarations.RunDemo;
 
 function getDemo(demo): Action<string> {
   if (demoMapping.hasOwnProperty(demo)) return demoMapping[demo]
@@ -108,4 +111,5 @@ window.onload = () => {
   attachClickHandler("interfacesButton", DemoType.Interfaces);
   attachClickHandler("typeCompatibilityButton", DemoType.TypeCompatibility);
   attachClickHandler("functionInterfacesButton", DemoType.FunctionInterfaces);
+  attachClickHandler("ambientDeclarationsButton", DemoType.AmbientDeclarations);
 };

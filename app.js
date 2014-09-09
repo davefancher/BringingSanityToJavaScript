@@ -11,6 +11,7 @@
 /// <reference path="Demos/Interfaces/Example.ts" />
 /// <reference path="Demos/TypeCompatibility/Example.ts" />
 /// <reference path="Demos/FunctionInterfaces/Example.ts" />
+/// <reference path="Demos/AmbientDeclarations/Example.ts" />
 
 var DemoType;
 (function (DemoType) {
@@ -27,6 +28,7 @@ var DemoType;
     DemoType[DemoType["Interfaces"] = 10] = "Interfaces";
     DemoType[DemoType["TypeCompatibility"] = 11] = "TypeCompatibility";
     DemoType[DemoType["FunctionInterfaces"] = 12] = "FunctionInterfaces";
+    DemoType[DemoType["AmbientDeclarations"] = 13] = "AmbientDeclarations";
 })(DemoType || (DemoType = {}));
 
 var demoMapping = {};
@@ -43,6 +45,7 @@ demoMapping[9 /* ParameterProperties */] = ParameterProperties.RunDemo;
 demoMapping[10 /* Interfaces */] = Interfaces.RunDemo;
 demoMapping[11 /* TypeCompatibility */] = TypeCompatibility.RunDemo;
 demoMapping[12 /* FunctionInterfaces */] = FunctionInterfaces.RunDemo;
+demoMapping[13 /* AmbientDeclarations */] = AmbientDeclarations.RunDemo;
 
 function getDemo(demo) {
     if (demoMapping.hasOwnProperty(demo))
@@ -118,5 +121,6 @@ window.onload = function () {
     attachClickHandler("interfacesButton", 10 /* Interfaces */);
     attachClickHandler("typeCompatibilityButton", 11 /* TypeCompatibility */);
     attachClickHandler("functionInterfacesButton", 12 /* FunctionInterfaces */);
+    attachClickHandler("ambientDeclarationsButton", 13 /* AmbientDeclarations */);
 };
 //# sourceMappingURL=app.js.map

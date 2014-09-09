@@ -25,6 +25,7 @@
       <DependentUpon>app.less</DependentUpon>
     </Content>
     <Content Include="Demos\Accessors\Description.html" />
+    <Content Include="Demos\AmbientDeclarations\Description.html" />
     <Content Include="Demos\ArrowFunctionExpressions\Description.html" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -59,6 +60,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="Demos\Accessors\Example.ts" />
+    <TypeScriptCompile Include="Demos\AmbientDeclarations\Example.ts" />
     <TypeScriptCompile Include="Demos\ArrowFunctionExpressions\Example.ts" />
     <TypeScriptCompile Include="Demos\Classes\Example.ts" />
     <TypeScriptCompile Include="Demos\ComputedMemberEnums\Example.ts" />

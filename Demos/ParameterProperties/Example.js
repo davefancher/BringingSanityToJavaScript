@@ -19,4 +19,4 @@
     }
     ParameterProperties.RunDemo = RunDemo;
 })(ParameterProperties || (ParameterProperties = {}));
-//# sourceMappingURL=ParameterProperties.js.map
+//# sourceMappingURL=Example.js.map

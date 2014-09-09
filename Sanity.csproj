@@ -24,22 +24,22 @@
     <Content Include="app.css">
       <DependentUpon>app.less</DependentUpon>
     </Content>
-    <Content Include="Demos\Accessors.html" />
-    <Content Include="Demos\ArrowFunctionExpressions.html" />
+    <Content Include="Demos\Accessors\Description.html" />
+    <Content Include="Demos\ArrowFunctionExpressions\Description.html" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Demos\Classes.html" />
-    <Content Include="Demos\ComputedMemberEnums.html" />
-    <Content Include="Demos\DefaultParameters.html" />
-    <Content Include="Demos\FunctionInterfaces.html" />
-    <Content Include="Demos\FunctionOverloading.html" />
-    <Content Include="Demos\Interfaces.html" />
-    <Content Include="Demos\OptionalParameters.html" />
-    <Content Include="Demos\ParameterProperties.html" />
-    <Content Include="Demos\StandardEnumerations.html" />
-    <Content Include="Demos\TypeCompatibility.html" />
+    <Content Include="Demos\Classes\Description.html" />
+    <Content Include="Demos\ComputedMemberEnums\Description.html" />
+    <Content Include="Demos\DefaultParameters\Description.html" />
+    <Content Include="Demos\FunctionInterfaces\Description.html" />
+    <Content Include="Demos\FunctionOverloading\Description.html" />
+    <Content Include="Demos\Interfaces\Description.html" />
+    <Content Include="Demos\OptionalParameters\Description.html" />
+    <Content Include="Demos\ParameterProperties\Description.html" />
+    <Content Include="Demos\StandardEnumerations\Description.html" />
+    <Content Include="Demos\TypeCompatibility\Description.html" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="index.html" />
     <Content Include="packages.config" />
@@ -57,18 +57,18 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
-    <TypeScriptCompile Include="Demos\Accessors.ts" />
-    <TypeScriptCompile Include="Demos\ArrowFunctionExpressions.ts" />
-    <TypeScriptCompile Include="Demos\Classes.ts" />
-    <TypeScriptCompile Include="Demos\ComputedMemberEnums.ts" />
-    <TypeScriptCompile Include="Demos\DefaultParameters.ts" />
-    <TypeScriptCompile Include="Demos\FunctionInterfaces.ts" />
-    <TypeScriptCompile Include="Demos\FunctionOverloading.ts" />
-    <TypeScriptCompile Include="Demos\Interfaces.ts" />
-    <TypeScriptCompile Include="Demos\OptionalParameters.ts" />
-    <TypeScriptCompile Include="Demos\ParameterProperties.ts" />
-    <TypeScriptCompile Include="Demos\StandardEnumerations.ts" />
-    <TypeScriptCompile Include="Demos\TypeCompatibility.ts" />
+    <TypeScriptCompile Include="Demos\Accessors\Example.ts" />
+    <TypeScriptCompile Include="Demos\ArrowFunctionExpressions\Example.ts" />
+    <TypeScriptCompile Include="Demos\Classes\Example.ts" />
+    <TypeScriptCompile Include="Demos\ComputedMemberEnums\Example.ts" />
+    <TypeScriptCompile Include="Demos\DefaultParameters\Example.ts" />
+    <TypeScriptCompile Include="Demos\FunctionInterfaces\Example.ts" />
+    <TypeScriptCompile Include="Demos\FunctionOverloading\Example.ts" />
+    <TypeScriptCompile Include="Demos\Interfaces\Example.ts" />
+    <TypeScriptCompile Include="Demos\OptionalParameters\Example.ts" />
+    <TypeScriptCompile Include="Demos\ParameterProperties\Example.ts" />
+    <TypeScriptCompile Include="Demos\StandardEnumerations\Example.ts" />
+    <TypeScriptCompile Include="Demos\TypeCompatibility\Example.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-1.9.0.min.map" />
@@ -79,6 +79,7 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

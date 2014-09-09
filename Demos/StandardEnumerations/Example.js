@@ -34,4 +34,4 @@
     }
     StandardEnumerations.RunDemo = RunDemo;
 })(StandardEnumerations || (StandardEnumerations = {}));
-//# sourceMappingURL=StandardEnumerations.js.map
+//# sourceMappingURL=Example.js.map

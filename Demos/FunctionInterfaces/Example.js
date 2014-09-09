@@ -19,4 +19,4 @@
     }
     FunctionInterfaces.RunDemo = RunDemo;
 })(FunctionInterfaces || (FunctionInterfaces = {}));
-//# sourceMappingURL=FunctionInterfaces.js.map
+//# sourceMappingURL=Example.js.map

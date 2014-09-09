@@ -1,15 +1,15 @@
-﻿/// <reference path="Demos/ArrowFunctionExpressions.ts" />
-/// <reference path="Demos/DefaultParameters.ts" />
-/// <reference path="Demos/OptionalParameters.ts" />
-/// <reference path="Demos/FunctionOverloading.ts" />
-/// <reference path="Demos/StandardEnumerations.ts" />
-/// <reference path="Demos/ComputedMemberEnums.ts" />
-/// <reference path="Demos/Classes.ts" />
-/// <reference path="Demos/Accessors.ts" />
-/// <reference path="Demos/ParameterProperties.ts" />
-/// <reference path="Demos/Interfaces.ts" />
-/// <reference path="Demos/TypeCompatibility.ts" />
-/// <reference path="Demos/FunctionInterfaces.ts" />
+﻿/// <reference path="Demos/ArrowFunctionExpressions/Example.ts" />
+/// <reference path="Demos/DefaultParameters/Example.ts" />
+/// <reference path="Demos/OptionalParameters/Example.ts" />
+/// <reference path="Demos/FunctionOverloading/Example.ts" />
+/// <reference path="Demos/StandardEnumerations/Example.ts" />
+/// <reference path="Demos/ComputedMemberEnums/Example.ts" />
+/// <reference path="Demos/Classes/Example.ts" />
+/// <reference path="Demos/Accessors/Example.ts" />
+/// <reference path="Demos/ParameterProperties/Example.ts" />
+/// <reference path="Demos/Interfaces/Example.ts" />
+/// <reference path="Demos/TypeCompatibility/Example.ts" />
+/// <reference path="Demos/FunctionInterfaces/Example.ts" />
 
 //#region Demo Setup
 
@@ -60,9 +60,9 @@ var wrapJS = content => "<pre>" + content + "</pre>"
 var formatScriptClean = text => wrapJS(escape(text));
 var formatScript = text => wrapJS(text);
 var requests = [
-    { extension: "html", target: "descriptionView", formatter: xhr => xhr },
-    { extension: "ts", target: "typeScriptSourceView", formatter: formatScriptClean },
-    { extension: "js", target: "javaScriptSourceView", formatter: formatScriptClean } ];
+    { fileName: "Description.html", target: "descriptionView", formatter: xhr => xhr },
+    { fileName: "Example.ts", target: "typeScriptSourceView", formatter: formatScriptClean },
+    { fileName: "Example.js", target: "javaScriptSourceView", formatter: formatScriptClean } ];
 
 var makeHttpRequest = (uri, target, format) => {
   $.ajax({
@@ -75,9 +75,9 @@ var makeHttpRequest = (uri, target, format) => {
 var runDemo = (type: DemoType) => {
   $("#viewTabs a[href=#description]").tab("show");
 
-  var baseFileName = DemoType[type];
+  var demoName = DemoType[type];
 
-  requests.forEach(r => makeHttpRequest("Demos/" + baseFileName + "." + r.extension, $("#" + r.target), r.formatter));
+  requests.forEach(r => makeHttpRequest("Demos/" + demoName + "/" + r.fileName, $("#" + r.target), r.formatter));
 
   $("#outputView").html(formatScript(getDemo(type)()));
 };

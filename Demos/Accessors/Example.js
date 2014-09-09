@@ -32,4 +32,4 @@
     }
     Accessors.RunDemo = RunDemo;
 })(Accessors || (Accessors = {}));
-//# sourceMappingURL=Accessors.js.map
+//# sourceMappingURL=Example.js.map

@@ -10,4 +10,4 @@
     }
     DefaultParameters.RunDemo = RunDemo;
 })(DefaultParameters || (DefaultParameters = {}));
-//# sourceMappingURL=DefaultParameters.js.map
+//# sourceMappingURL=Example.js.map

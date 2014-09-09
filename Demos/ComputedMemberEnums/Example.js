@@ -31,4 +31,4 @@
     }
     ComputedMemberEnums.RunDemo = RunDemo;
 })(ComputedMemberEnums || (ComputedMemberEnums = {}));
-//# sourceMappingURL=ComputedMemberEnums.js.map
+//# sourceMappingURL=Example.js.map

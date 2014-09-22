@@ -37,6 +37,7 @@
     <Content Include="Demos\FunctionInterfaces\Description.html" />
     <Content Include="Demos\FunctionOverloading\Description.html" />
     <Content Include="Demos\Interfaces\Description.html" />
+    <Content Include="Demos\Modules\Description.html" />
     <Content Include="Demos\OptionalParameters\Description.html" />
     <Content Include="Demos\ParameterProperties\Description.html" />
     <Content Include="Demos\RestParameters\Description.html" />
@@ -68,6 +69,7 @@
     <TypeScriptCompile Include="Demos\FunctionInterfaces\Example.ts" />
     <TypeScriptCompile Include="Demos\FunctionOverloading\Example.ts" />
     <TypeScriptCompile Include="Demos\Interfaces\Example.ts" />
+    <TypeScriptCompile Include="Demos\Modules\Example.ts" />
     <TypeScriptCompile Include="Demos\OptionalParameters\Example.ts" />
     <TypeScriptCompile Include="Demos\ParameterProperties\Example.ts" />
     <TypeScriptCompile Include="Demos\RestParameters\Example.ts" />

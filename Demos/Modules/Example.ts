@@ -1,41 +1,41 @@
-﻿module ShapeGeometry {
-  export interface IShape { }
+﻿module RpnCalculator {
+  function apply(items: number[], fn : (x: number, y: number) => number) {
+    var y = items.shift();
+    var x = items.shift();
 
-  export class Circle implements IShape {
-    constructor(public radius: number) { }
+    items.unshift(fn(x, y));
+
+    return items;
   }
 
-  export class Rectangle implements IShape {
-    constructor(public width: number, public height: number) { }
+  function solveInternal(items: number[], value: string) {
+    if (value === "+") return apply(items, (x, y) => x + y);
+    if (value === "-") return apply(items, (x, y) => x - y);
+    if (value === "*") return apply(items, (x, y) => x * y);
+    if (value === "/") return apply(items, (x, y) => x / y);
+
+    items.unshift(parseFloat(value));
+
+    return items;
   }
 
-  export class Triangle implements IShape {
-    constructor(public leg1: number, public leg2: number, public leg3: number) { }
-  }
-
-  export function getArea(s: IShape) {
-    if (s instanceof Circle) {
-      var c = <Circle> s;
-      return Math.PI * Math.pow(c.radius, 2);
-    } else if (s instanceof Rectangle) {
-      var r = <Rectangle> s;
-      return r.width * r.height;
-    } else if (s instanceof Triangle) {
-      var t = <Triangle> s;
-      return 0.5 * (t.leg1 + t.leg2 + t.leg3)
-    }
+  export function solve(expr: string) {
+    return expr.split(" ").reduce(solveInternal, []);
   }
 }
 
 module ModuleDemo {
-  import circle = ShapeGeometry.Circle;
-  import rect = ShapeGeometry.Rectangle;
-  import triangle = ShapeGeometry.Triangle;
-  import getArea = ShapeGeometry.getArea;
-
   export function RunDemo() {
-    return "Circle area: " + getArea(new circle(5)) + "<br />" +
-      "Rectangle area: " + getArea(new rect(2, 3)) + "<br />" +
-      "Triangle area: " + getArea(new triangle(2, 3, 4));
+    var expressions = [
+      "4 2 5 * + 1 3 2 * + /",
+      "5 4 6 + /",
+      "10 4 3 + 2 * -",
+      "2 3 +",
+      "90 34 12 33 55 66 + * - + -",
+      "90 3 -"];
+
+    return expressions.reduce(
+      (p, c) => p + c + " = " + RpnCalculator.solve(c).toString() + "<br />",
+      "");
   }
 }

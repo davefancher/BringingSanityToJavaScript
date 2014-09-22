@@ -1,56 +1,57 @@
-﻿var ShapeGeometry;
-(function (ShapeGeometry) {
-    var Circle = (function () {
-        function Circle(radius) {
-            this.radius = radius;
-        }
-        return Circle;
-    })();
-    ShapeGeometry.Circle = Circle;
+﻿var RpnCalculator;
+(function (RpnCalculator) {
+    function apply(items, fn) {
+        var y = items.shift();
+        var x = items.shift();
 
-    var Rectangle = (function () {
-        function Rectangle(width, height) {
-            this.width = width;
-            this.height = height;
-        }
-        return Rectangle;
-    })();
-    ShapeGeometry.Rectangle = Rectangle;
+        items.unshift(fn(x, y));
 
-    var Triangle = (function () {
-        function Triangle(leg1, leg2, leg3) {
-            this.leg1 = leg1;
-            this.leg2 = leg2;
-            this.leg3 = leg3;
-        }
-        return Triangle;
-    })();
-    ShapeGeometry.Triangle = Triangle;
-
-    function getArea(s) {
-        if (s instanceof Circle) {
-            var c = s;
-            return Math.PI * Math.pow(c.radius, 2);
-        } else if (s instanceof Rectangle) {
-            var r = s;
-            return r.width * r.height;
-        } else if (s instanceof Triangle) {
-            var t = s;
-            return 0.5 * (t.leg1 + t.leg2 + t.leg3);
-        }
+        return items;
     }
-    ShapeGeometry.getArea = getArea;
-})(ShapeGeometry || (ShapeGeometry = {}));
+
+    function solveInternal(items, value) {
+        if (value === "+")
+            return apply(items, function (x, y) {
+                return x + y;
+            });
+        if (value === "-")
+            return apply(items, function (x, y) {
+                return x - y;
+            });
+        if (value === "*")
+            return apply(items, function (x, y) {
+                return x * y;
+            });
+        if (value === "/")
+            return apply(items, function (x, y) {
+                return x / y;
+            });
+
+        items.unshift(parseFloat(value));
+
+        return items;
+    }
+
+    function solve(expr) {
+        return expr.split(" ").reduce(solveInternal, []);
+    }
+    RpnCalculator.solve = solve;
+})(RpnCalculator || (RpnCalculator = {}));
 
 var ModuleDemo;
 (function (ModuleDemo) {
-    var circle = ShapeGeometry.Circle;
-    var rect = ShapeGeometry.Rectangle;
-    var triangle = ShapeGeometry.Triangle;
-    var getArea = ShapeGeometry.getArea;
-
     function RunDemo() {
-        return "Circle area: " + getArea(new circle(5)) + "<br />" + "Rectangle area: " + getArea(new rect(2, 3)) + "<br />" + "Triangle area: " + getArea(new triangle(2, 3, 4));
+        var expressions = [
+            "4 2 5 * + 1 3 2 * + /",
+            "5 4 6 + /",
+            "10 4 3 + 2 * -",
+            "2 3 +",
+            "90 34 12 33 55 66 + * - + -",
+            "90 3 -"];
+
+        return expressions.reduce(function (p, c) {
+            return p + c + " = " + RpnCalculator.solve(c).toString() + "<br />";
+        }, "");
     }
     ModuleDemo.RunDemo = RunDemo;
 })(ModuleDemo || (ModuleDemo = {}));

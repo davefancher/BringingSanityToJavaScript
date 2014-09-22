@@ -1,22 +1,33 @@
 ﻿module RpnCalculator {
-  function apply(items: number[], fn : (x: number, y: number) => number) {
+  interface BinaryOperator<T> {
+    (x: T, y: T): T
+  }
+
+  var add: BinaryOperator<number> = (x, y) => x + y;
+  var subtract: BinaryOperator<number> = (x, y) => x - y;
+  var multiply: BinaryOperator<number> = (x, y) => x * y;
+  var divide: BinaryOperator<number> = (x, y) => x / y;
+
+  function applyOperator(items: number[], op : BinaryOperator<number>) {
     var y = items.shift();
     var x = items.shift();
 
-    items.unshift(fn(x, y));
+    items.unshift(op(x, y));
 
     return items;
   }
 
-  function solveInternal(items: number[], value: string) {
-    if (value === "+") return apply(items, (x, y) => x + y);
-    if (value === "-") return apply(items, (x, y) => x - y);
-    if (value === "*") return apply(items, (x, y) => x * y);
-    if (value === "/") return apply(items, (x, y) => x / y);
+  function solveInternal(stack: number[], value: string) {
+    var apply = (op: BinaryOperator<number>) => applyOperator(stack, op);
 
-    items.unshift(parseFloat(value));
+    if (value === "+") return apply(add);
+    if (value === "-") return apply(subtract);
+    if (value === "*") return apply(multiply);
+    if (value === "/") return apply(divide);
 
-    return items;
+    stack.unshift(parseFloat(value));
+
+    return stack;
   }
 
   export function solve(expr: string) {
@@ -26,16 +37,17 @@
 
 module ModuleDemo {
   export function RunDemo() {
-    var expressions = [
-      "4 2 5 * + 1 3 2 * + /",
-      "5 4 6 + /",
-      "10 4 3 + 2 * -",
-      "2 3 +",
-      "90 34 12 33 55 66 + * - + -",
-      "90 3 -"];
 
-    return expressions.reduce(
-      (p, c) => p + c + " = " + RpnCalculator.solve(c).toString() + "<br />",
-      "");
+    return [
+        "4 2 5 * + 1 3 2 * + /",
+        "5 4 6 + /",
+        "10 4 3 + 2 * -",
+        "2 3 +",
+        "90 34 12 33 55 66 + * - + -",
+        "90 3 -"
+      ].map(
+        e => ({ expression: e, result: RpnCalculator.solve(e) })
+      ).reduce(
+        (p, c) => p + c.expression + " = " + c.result.toString() + "<br />", "");
   }
 }

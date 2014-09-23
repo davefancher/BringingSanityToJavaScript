@@ -5,7 +5,7 @@
     function RunDemo() {
         return fibonacci.filter(function (n) {
             return n % 2 === 0;
-        }).reduce(function (state, current, ix, source) {
+        }).reduce(function (state, current) {
             return state + current.toString() + "<br />";
         }, "").toString();
     }

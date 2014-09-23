@@ -4,7 +4,7 @@
   export function RunDemo() {
     return fibonacci
       .filter(n => n % 2 === 0)
-      .reduce((state, current, ix, source) => state + current.toString() + "<br />", "")
+      .reduce((state, current) => state + current.toString() + "<br />", "")
       .toString(); 
   }
 } 

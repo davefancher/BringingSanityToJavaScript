@@ -6,6 +6,9 @@
   }
 
   export function RunDemo() {
-    return detokenizeString("Hello, {0}! Today is {1}", "Dave", new Date().toLocaleDateString());
+    return detokenizeString(
+      "Hello, {0}! Today is {1}",
+      "Dave",
+      new Date().toLocaleDateString());
   }
 } 

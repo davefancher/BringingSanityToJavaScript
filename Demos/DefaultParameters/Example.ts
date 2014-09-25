@@ -4,6 +4,7 @@
   }
 
   export function RunDemo() {
-    return formatName("John", "Public") + "<br />" + formatName("John", "Public", "Q");
+    return formatName("John", "Public") + "<br />" +
+           formatName("John", "Public", "Q");
   }
 }

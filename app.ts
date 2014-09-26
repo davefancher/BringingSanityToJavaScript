@@ -1,4 +1,5 @@
-﻿/// <reference path="Demos/ArrowFunctionExpressions/Example.ts" />
+﻿/// <reference path="Scripts/typings/jquery/jquery.d.ts" />
+/// <reference path="Demos/ArrowFunctionExpressions/Example.ts" />
 /// <reference path="Demos/DefaultParameters/Example.ts" />
 /// <reference path="Demos/OptionalParameters/Example.ts" />
 /// <reference path="Demos/RestParameters/Example.ts" />
@@ -16,7 +17,7 @@
 
 //#region Demo Setup
 
-declare var $;
+import $ = require("jquery");
 declare var SyntaxHighlighter;
 
 interface Action<TOut> {

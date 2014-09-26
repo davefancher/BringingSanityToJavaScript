@@ -24,6 +24,8 @@
     <Content Include="app.css">
       <DependentUpon>app.less</DependentUpon>
     </Content>
+    <Content Include="Content\shCore.css" />
+    <Content Include="Content\shThemeDefault.css" />
     <Content Include="Demos\Accessors\Description.html" />
     <Content Include="Demos\AmbientDeclarations\Description.html" />
     <Content Include="Demos\ArrowFunctionExpressions\Description.html" />
@@ -56,6 +58,10 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.9.0.js" />
     <Content Include="Scripts\jquery-1.9.0.min.js" />
+    <Content Include="Scripts\shBrushTypeScript.js" />
+    <Content Include="Scripts\shBrushJScript.js" />
+    <Content Include="Scripts\shCore.js" />
+    <Content Include="Scripts\XRegExp.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>

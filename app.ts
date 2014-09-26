@@ -17,6 +17,7 @@
 //#region Demo Setup
 
 declare var $;
+declare var SyntaxHighlighter;
 
 interface Action<TOut> {
   (): TOut;
@@ -65,18 +66,25 @@ function getDemo(demo): Action<string> {
 
 //#endregion
 var escape = (text: string) => text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-var wrapJS = content => "<pre>" + content + "</pre>"
-var formatScriptClean = text => wrapJS(escape(text));
-var formatScript = text => wrapJS(text);
+var wrapText = content => "<pre>" + content + "</pre>";
+var wrapTS = content => "<pre class=\"brush: ts\" >" + escape(content) + "</pre>";
+var wrapJS = content => "<pre class=\"brush: js\" >" + escape(content) + "</pre>";
+
+//var formatScriptClean = text => wrapJS(escape(text));
+//var formatScript = text => wrapJS(text);
+
 var requests = [
     { fileName: "Description.html", target: "descriptionView", formatter: xhr => xhr },
-    { fileName: "Example.ts", target: "typeScriptSourceView", formatter: formatScriptClean },
-    { fileName: "Example.js", target: "javaScriptSourceView", formatter: formatScriptClean } ];
+    { fileName: "Example.ts", target: "typeScriptSourceView", formatter: wrapTS },
+    { fileName: "Example.js", target: "javaScriptSourceView", formatter: wrapJS } ];
 
 var makeHttpRequest = (uri, target, format) => {
   $.ajax({
     url: uri,
-    success: xhr => target.html(format(xhr)),
+    success: xhr => {
+      target.html(format(xhr));
+      target.children("pre").each(e => SyntaxHighlighter.highlight(null, e));
+    },
     error: xhr => target.html(xhr)
   });
 };
@@ -88,8 +96,9 @@ var runDemo = (type: DemoType) => {
 
   requests.forEach(r => makeHttpRequest("Demos/" + demoName + "/" + r.fileName, $("#" + r.target), r.formatter));
 
-  $("#outputView").html(formatScript(getDemo(type)()));
+  $("#outputView").html(wrapText(getDemo(type)()));
 };
+
 
 var attachClickHandler = (buttonId, demoType: DemoType) => {
   var button = $("#" + buttonId);

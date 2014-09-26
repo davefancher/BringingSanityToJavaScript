@@ -61,27 +61,33 @@ function getDemo(demo) {
 var escape = function (text) {
     return text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 };
-var wrapJS = function (content) {
+var wrapText = function (content) {
     return "<pre>" + content + "</pre>";
 };
-var formatScriptClean = function (text) {
-    return wrapJS(escape(text));
+var wrapTS = function (content) {
+    return "<pre class=\"brush: ts\" >" + escape(content) + "</pre>";
 };
-var formatScript = function (text) {
-    return wrapJS(text);
+var wrapJS = function (content) {
+    return "<pre class=\"brush: js\" >" + escape(content) + "</pre>";
 };
+
+//var formatScriptClean = text => wrapJS(escape(text));
+//var formatScript = text => wrapJS(text);
 var requests = [
     { fileName: "Description.html", target: "descriptionView", formatter: function (xhr) {
             return xhr;
         } },
-    { fileName: "Example.ts", target: "typeScriptSourceView", formatter: formatScriptClean },
-    { fileName: "Example.js", target: "javaScriptSourceView", formatter: formatScriptClean }];
+    { fileName: "Example.ts", target: "typeScriptSourceView", formatter: wrapTS },
+    { fileName: "Example.js", target: "javaScriptSourceView", formatter: wrapJS }];
 
 var makeHttpRequest = function (uri, target, format) {
     $.ajax({
         url: uri,
         success: function (xhr) {
-            return target.html(format(xhr));
+            target.html(format(xhr));
+            target.children("pre").each(function (e) {
+                return SyntaxHighlighter.highlight(null, e);
+            });
         },
         error: function (xhr) {
             return target.html(xhr);
@@ -98,7 +104,7 @@ var runDemo = function (type) {
         return makeHttpRequest("Demos/" + demoName + "/" + r.fileName, $("#" + r.target), r.formatter);
     });
 
-    $("#outputView").html(formatScript(getDemo(type)()));
+    $("#outputView").html(wrapText(getDemo(type)()));
 };
 
 var attachClickHandler = function (buttonId, demoType) {

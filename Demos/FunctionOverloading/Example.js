@@ -1,5 +1,8 @@
 ﻿var FunctionOverloading;
 (function (FunctionOverloading) {
+    
+
+    // Implementation
     function formatName() {
         var first = arguments[0];
         var last = arguments[1];

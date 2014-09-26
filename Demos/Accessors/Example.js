@@ -26,9 +26,7 @@
         var c = new Circle(5);
         c.radius = 3;
 
-        var result = "The circle's radius is " + c.radius + "<br />";
-        result += "The circle's area is " + c.getArea();
-        return result;
+        return "The circle's radius is " + c.radius + "<br />" + "The circle's area is " + c.getArea();
     }
     Accessors.RunDemo = RunDemo;
 })(Accessors || (Accessors = {}));

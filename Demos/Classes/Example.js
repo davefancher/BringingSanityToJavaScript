@@ -13,9 +13,7 @@
     function RunDemo() {
         var c = new Circle(5);
 
-        var result = "The circle's radius is " + c.radius + "<br />";
-        result += "The circle's area is " + c.getArea();
-        return result;
+        return "The circle's radius is " + c.radius + "<br />" + "The circle's area is " + c.getArea();
     }
     Classes.RunDemo = RunDemo;
 })(Classes || (Classes = {}));

@@ -1,6 +1,9 @@
 ﻿module FunctionOverloading {
+  // Overload Signatures
   function formatName(first: string, last: string);
   function formatName(first: string, last: string, middle: string);
+
+  // Implementation
   function formatName() {
     var first = arguments[0];
     var last = arguments[1];

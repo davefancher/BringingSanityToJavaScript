@@ -1,4 +1,5 @@
 ﻿/// <reference path="Scripts/typings/jquery/jquery.d.ts" />
+/// <reference path="Scripts/typings/bootstrap/bootstrap.d.ts" />
 /// <reference path="Demos/ArrowFunctionExpressions/Example.ts" />
 /// <reference path="Demos/DefaultParameters/Example.ts" />
 /// <reference path="Demos/OptionalParameters/Example.ts" />

@@ -81,6 +81,8 @@
     <TypeScriptCompile Include="Demos\RestParameters\Example.ts" />
     <TypeScriptCompile Include="Demos\StandardEnumerations\Example.ts" />
     <TypeScriptCompile Include="Demos\TypeCompatibility\Example.ts" />
+    <TypeScriptCompile Include="Scripts\typings\bootstrap\bootstrap.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-1.9.0.min.map" />

@@ -1,5 +1,6 @@
 ﻿/// <reference path="Scripts/typings/jquery/jquery.d.ts" />
 /// <reference path="Scripts/typings/bootstrap/bootstrap.d.ts" />
+/// <reference path="Scripts/typings/angularjs/angular.d.ts" />
 /// <reference path="Demos/ArrowFunctionExpressions/Example.ts" />
 /// <reference path="Demos/DefaultParameters/Example.ts" />
 /// <reference path="Demos/OptionalParameters/Example.ts" />
@@ -18,7 +19,6 @@
 
 //#region Demo Setup
 
-import $ = require("jquery");
 declare var SyntaxHighlighter;
 
 interface Action<TOut> {
@@ -43,88 +43,83 @@ enum DemoType {
   Modules
 }
 
-var demoMapping = {};
-demoMapping[DemoType.ArrowFunctionExpressions] = ArrowFunctionExpressions.RunDemo;
-demoMapping[DemoType.DefaultParameters] = DefaultParameters.RunDemo;
-demoMapping[DemoType.OptionalParameters] = OptionalParameters.RunDemo;
-demoMapping[DemoType.RestParameters] = RestParameters.RunDemo;
-demoMapping[DemoType.FunctionOverloading] = FunctionOverloading.RunDemo;
-demoMapping[DemoType.StandardEnumerations] = StandardEnumerations.RunDemo;
-demoMapping[DemoType.ComputedMemberEnums] = ComputedMemberEnums.RunDemo;
-demoMapping[DemoType.Classes] = Classes.RunDemo;
-demoMapping[DemoType.Accessors] = Accessors.RunDemo;
-demoMapping[DemoType.ParameterProperties] = ParameterProperties.RunDemo;
-demoMapping[DemoType.Interfaces] = Interfaces.RunDemo;
-demoMapping[DemoType.TypeCompatibility] = TypeCompatibility.RunDemo;
-demoMapping[DemoType.FunctionInterfaces] = FunctionInterfaces.RunDemo;
-demoMapping[DemoType.AmbientDeclarations] = AmbientDeclarations.RunDemo;
-demoMapping[DemoType.Modules] = ModuleDemo.RunDemo;
+//#endregion
 
-function getDemo(demo): Action<string> {
-  if (demoMapping.hasOwnProperty(demo)) return demoMapping[demo]
-
-  throw "Unknown option";
+interface ISanityControllerScope extends ng.IScope {
+  title: string;
+  demoDescription: string;
+  demoTsSource: string;
+  demoJsSource: string;
+  demoOutput: string;
 }
 
-//#endregion
-var escape = (text: string) => text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-var wrapText = content => "<pre>" + content + "</pre>";
-var wrapTS = content => "<pre class=\"brush: ts\" >" + escape(content) + "</pre>";
-var wrapJS = content => "<pre class=\"brush: js\" >" + escape(content) + "</pre>";
+class SanityController {
+  private _demoMapping : any;
 
-//var formatScriptClean = text => wrapJS(escape(text));
-//var formatScript = text => wrapJS(text);
+  constructor(
+    private $scope: ISanityControllerScope,
+    private $http: ng.IHttpService) {
+    $scope.title = "Bringing Sanity to JavaScript";
+    $scope.demoDescription = "<p>Select an example to display the description here</p>";
+    $scope.demoTsSource = "<p>Select an example to display the TypeScript Source here</p>";
+    $scope.demoJsSource = "<p>Select an example to display the JavaScript Source here</p>";
+    $scope.demoOutput = "<p>Select an example to display the Output here</p>";
 
-var requests = [
-    { fileName: "Description.html", target: "descriptionView", formatter: xhr => xhr },
-    { fileName: "Example.ts", target: "typeScriptSourceView", formatter: wrapTS },
-    { fileName: "Example.js", target: "javaScriptSourceView", formatter: wrapJS } ];
+    //TODO: Reconnect syntax highlighter
+    //target.children("pre").each(e => SyntaxHighlighter.highlight(null, e));
 
-var makeHttpRequest = (uri, target, format) => {
-  $.ajax({
-    url: uri,
-    success: xhr => {
-      target.html(format(xhr));
-      target.children("pre").each(e => SyntaxHighlighter.highlight(null, e));
-    },
-    error: xhr => target.html(xhr)
-  });
-};
+    var demoMapping = {};
+    demoMapping[DemoType.ArrowFunctionExpressions] = ArrowFunctionExpressions.RunDemo;
+    demoMapping[DemoType.DefaultParameters] = DefaultParameters.RunDemo;
+    demoMapping[DemoType.OptionalParameters] = OptionalParameters.RunDemo;
+    demoMapping[DemoType.RestParameters] = RestParameters.RunDemo;
+    demoMapping[DemoType.FunctionOverloading] = FunctionOverloading.RunDemo;
+    demoMapping[DemoType.StandardEnumerations] = StandardEnumerations.RunDemo;
+    demoMapping[DemoType.ComputedMemberEnums] = ComputedMemberEnums.RunDemo;
+    demoMapping[DemoType.Classes] = Classes.RunDemo;
+    demoMapping[DemoType.Accessors] = Accessors.RunDemo;
+    demoMapping[DemoType.ParameterProperties] = ParameterProperties.RunDemo;
+    demoMapping[DemoType.Interfaces] = Interfaces.RunDemo;
+    demoMapping[DemoType.TypeCompatibility] = TypeCompatibility.RunDemo;
+    demoMapping[DemoType.FunctionInterfaces] = FunctionInterfaces.RunDemo;
+    demoMapping[DemoType.AmbientDeclarations] = AmbientDeclarations.RunDemo;
+    demoMapping[DemoType.Modules] = ModuleDemo.RunDemo;
 
-var runDemo = (type: DemoType) => {
-  $("#viewTabs a[href=#description]").tab("show");
+    this._demoMapping = demoMapping;
+  }
 
-  var demoName = DemoType[type];
+  private escape = (text: string) => text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  private wrapText = content => "<pre>" + content + "</pre>";
+  private wrapTS = content => "<pre class=\"brush: ts\" >" + this.escape(content) + "</pre>";
+  private wrapJS = content => "<pre class=\"brush: js\" >" + this.escape(content) + "</pre>";
 
-  requests.forEach(r => makeHttpRequest("Demos/" + demoName + "/" + r.fileName, $("#" + r.target), r.formatter));
+  private requests = [
+    { fileName: "Description.html", callback: result => this.$scope.demoDescription = result.data.toString() },
+    { fileName: "Example.ts", callback: result => this.$scope.demoTsSource = this.wrapTS(result.data.toString()) },
+    { fileName: "Example.js", callback: result => this.$scope.demoJsSource = this.wrapJS(result.data.toString()) }];
 
-  $("#outputView").html(wrapText(getDemo(type)()));
-};
+  private getDemo(demo: DemoType): Action<string> {
+    if (this._demoMapping.hasOwnProperty(demo)) return this._demoMapping[demo];
 
+    throw "Unknown option";
+  }
 
-var attachClickHandler = (buttonId, demoType: DemoType) => {
-  var button = $("#" + buttonId);
-  button.click(e => {
-    e.preventDefault();
-    $("#currentExampleName").text($(e.target).text());
-    runDemo(demoType);
-  });
-};
+  private runDemo = (type: DemoType) => {
+    angular.element("#viewTabs a[href=#description]").tab("show");
+    var demoName = DemoType[type];
 
-window.onload = () => {
-  attachClickHandler("arrowFunctionExpressionsButton", DemoType.ArrowFunctionExpressions);
-  attachClickHandler("defaultParametersButton", DemoType.DefaultParameters);
-  attachClickHandler("optionalParametersButton", DemoType.OptionalParameters);
-  attachClickHandler("restParametersButton", DemoType.RestParameters);
-  attachClickHandler("functionOverloadingButton", DemoType.FunctionOverloading);
-  attachClickHandler("standardEnumsButton", DemoType.StandardEnumerations);
-  attachClickHandler("computedMemberEnumsButton", DemoType.ComputedMemberEnums);
-  attachClickHandler("classesButton", DemoType.Classes);
-  attachClickHandler("accessorsButton", DemoType.Accessors);
-  attachClickHandler("parameterPropertiesButton", DemoType.ParameterProperties);
-  attachClickHandler("interfacesButton", DemoType.Interfaces);
-  attachClickHandler("typeCompatibilityButton", DemoType.TypeCompatibility);
-  attachClickHandler("functionInterfacesButton", DemoType.FunctionInterfaces);
-  attachClickHandler("ambientDeclarationsButton", DemoType.AmbientDeclarations);
-  attachClickHandler("modulesButton", DemoType.Modules);
-};
+    this.requests.forEach(
+      r => this.$http.get("Demos/" + demoName + "/" + r.fileName).then(r.callback, error => alert(error))
+    );
+
+    this.$scope.demoOutput = this.wrapText(this.getDemo(type));
+  };
+
+  public handleClick(e, demo : string) {
+    this.$scope.title = e.target.innerText;
+    this.runDemo(DemoType[demo]);
+  }
+}
+
+var sanityApp = angular.module("SanityApp", ["ngSanitize"]);
+sanityApp.controller("SanityController", ["$scope", "$http", SanityController]);

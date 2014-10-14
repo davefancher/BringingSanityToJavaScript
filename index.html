@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" ng-app="SanityApp">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,40 +26,42 @@
     <script src="Demos/Modules/Example.js"></script>
     <script src="Scripts/jquery-1.9.0.js"></script>
     <script src="Scripts/bootstrap.js"></script>
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/angular-sanitize.js"></script>
     <script src="Scripts/shCore.js"></script>
     <script src="Scripts/shBrushJScript.js"></script>
     <script src="Scripts/shBrushTypeScript.js"></script>
     <script src="app.js"></script>
 </head>
-<body>
+<body ng-controller="SanityController as Sanity">
     <div class="container">
         <div class="row">
             <h1 class="page-header">
-                TypeScript: <small id="currentExampleName">Bringing Sanity to JavaScript</small>
+                TypeScript: <small id="currentExampleName">{{title}}</small>
                 <div class="btn-group pull-right">
                     <button class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown">
                         Select An Example <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#" id="arrowFunctionExpressionsButton">Arrow Function Expressions</a></li>
-                        <li><a href="#" id="functionOverloadingButton">Function Overloading</a></li>
-                        <li><a href="#" id="defaultParametersButton">Default Parameters</a></li>
-                        <li><a href="#" id="optionalParametersButton">Optional Parameters</a></li>
-                        <li><a href="#" id="restParametersButton">Rest Parameters</a></li>
+                        <li><a ng-click="Sanity.handleClick($event, 'ArrowFunctionExpressions')">Arrow Function Expressions</a></li>
+                        <li><a ng-click="Sanity.handleClick($event, 'FunctionOverloading')">Function Overloading</a></li>
+                        <li><a ng-click="Sanity.handleClick($event, 'DefaultParameters')">Default Parameters</a></li>
+                        <li><a ng-click="Sanity.handleClick($event, 'OptionalParameters')">Optional Parameters</a></li>
+                        <li><a ng-click="Sanity.handleClick($event, 'RestParameters')">Rest Parameters</a></li>
                         <li class="divider"></li>
-                        <li><a href="#" id="standardEnumsButton">Standard Enumerations</a></li>
-                        <li><a href="#" id="computedMemberEnumsButton">Computed Member Enumerations</a></li>
+                        <li><a ng-click="Sanity.handleClick($event, 'StandardEnumerations')">Standard Enumerations</a></li>
+                        <li><a ng-click="Sanity.handleClick($event, 'ComputedMemberEnums')">Computed Member Enumerations</a></li>
                         <li class="divider"></li>
-                        <li><a href="#" id="classesButton">Classes</a></li>
-                        <li><a href="#" id="accessorsButton">Accessors</a></li>
-                        <li><a href="#" id="parameterPropertiesButton">Parameter Properties</a></li>
+                        <li><a ng-click="Sanity.handleClick($event, 'Classes')">Classes</a></li>
+                        <li><a ng-click="Sanity.handleClick($event, 'Accessors')">Accessors</a></li>
+                        <li><a ng-click="Sanity.handleClick($event, 'ParameterProperties')">Parameter Properties</a></li>
                         <li class="divider"></li>
-                        <li><a href="#" id="interfacesButton">Interfaces</a></li>
-                        <li><a href="#" id="typeCompatibilityButton">Type Compatibility</a></li>
-                        <li><a href="#" id="functionInterfacesButton">Function Interfaces</a></li>
+                        <li><a ng-click="Sanity.handleClick($event, 'Interfaces')">Interfaces</a></li>
+                        <li><a ng-click="Sanity.handleClick($event, 'TypeCompatibility')">Type Compatibility</a></li>
+                        <li><a ng-click="Sanity.handleClick($event, 'FunctionInterfaces')">Function Interfaces</a></li>
                         <li class="divider"></li>
-                        <li><a href="#" id="modulesButton">Modules</a></li>
-                        <li><a href="#" id="ambientDeclarationsButton">Ambient Declarations</a></li>
+                        <li><a ng-click="Sanity.handleClick($event, 'Modules')">Modules</a></li>
+                        <li><a ng-click="Sanity.handleClick($event, 'AmbientDeclarations')">Ambient Declarations</a></li>
                     </ul>
                 </div>
             </h1>
@@ -76,15 +78,15 @@
 
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="description">
-                        <div id="descriptionView"><p>Select an example to display the description here</p></div>
+                        <div ng-bind-html="demoDescription"></div>
                     </div>
                     <div class="tab-pane fade" id="typeScriptSource">
-                        <div id="typeScriptSourceView"><p>Select an example to display the TypeScript Source here</p></div>
+                        <div ng-bind-html="demoTsSource"></div>
                         <div><h2><span class="label label-default">Script Output</span></h2></div>
-                        <div id="outputView"><p>Select an example to display the Output here</p></div>
+                        <div ng-bind-html="demoOutput"></div>
                     </div>
                     <div class="tab-pane fade" id="javaScriptSource">
-                        <div id="javaScriptSourceView"><p>Select an example to display the JavaScript Source here</p></div>
+                        <div ng-bind-html="demoJsSource"></div>
                     </div>
                 </div>
             </div>

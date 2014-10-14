@@ -11,6 +11,7 @@
 /// <reference path="Demos/Classes/Example.ts" />
 /// <reference path="Demos/Accessors/Example.ts" />
 /// <reference path="Demos/ParameterProperties/Example.ts" />
+/// <reference path="Demos/Inheritance/Example.ts" />
 /// <reference path="Demos/Interfaces/Example.ts" />
 /// <reference path="Demos/TypeCompatibility/Example.ts" />
 /// <reference path="Demos/FunctionInterfaces/Example.ts" />
@@ -29,11 +30,12 @@ var DemoType;
     DemoType[DemoType["Classes"] = 7] = "Classes";
     DemoType[DemoType["Accessors"] = 8] = "Accessors";
     DemoType[DemoType["ParameterProperties"] = 9] = "ParameterProperties";
-    DemoType[DemoType["Interfaces"] = 10] = "Interfaces";
-    DemoType[DemoType["TypeCompatibility"] = 11] = "TypeCompatibility";
-    DemoType[DemoType["FunctionInterfaces"] = 12] = "FunctionInterfaces";
-    DemoType[DemoType["AmbientDeclarations"] = 13] = "AmbientDeclarations";
-    DemoType[DemoType["Modules"] = 14] = "Modules";
+    DemoType[DemoType["Inheritance"] = 10] = "Inheritance";
+    DemoType[DemoType["Interfaces"] = 11] = "Interfaces";
+    DemoType[DemoType["TypeCompatibility"] = 12] = "TypeCompatibility";
+    DemoType[DemoType["FunctionInterfaces"] = 13] = "FunctionInterfaces";
+    DemoType[DemoType["AmbientDeclarations"] = 14] = "AmbientDeclarations";
+    DemoType[DemoType["Modules"] = 15] = "Modules";
 })(DemoType || (DemoType = {}));
 
 
@@ -84,6 +86,9 @@ var SanityController = (function () {
 
         //TODO: Reconnect syntax highlighter
         //target.children("pre").each(e => SyntaxHighlighter.highlight(null, e));
+        //$scope.$watch(
+        //  "demoTsSource",
+        //  nv => angular.element("body").each(e => alert(e))); //SyntaxHighlighter.highlight(null, e)));
         var demoMapping = {};
         demoMapping[0 /* ArrowFunctionExpressions */] = ArrowFunctionExpressions.RunDemo;
         demoMapping[1 /* DefaultParameters */] = DefaultParameters.RunDemo;
@@ -95,11 +100,12 @@ var SanityController = (function () {
         demoMapping[7 /* Classes */] = Classes.RunDemo;
         demoMapping[8 /* Accessors */] = Accessors.RunDemo;
         demoMapping[9 /* ParameterProperties */] = ParameterProperties.RunDemo;
-        demoMapping[10 /* Interfaces */] = Interfaces.RunDemo;
-        demoMapping[11 /* TypeCompatibility */] = TypeCompatibility.RunDemo;
-        demoMapping[12 /* FunctionInterfaces */] = FunctionInterfaces.RunDemo;
-        demoMapping[13 /* AmbientDeclarations */] = AmbientDeclarations.RunDemo;
-        demoMapping[14 /* Modules */] = ModuleDemo.RunDemo;
+        demoMapping[10 /* Inheritance */] = Inheritance.RunDemo;
+        demoMapping[11 /* Interfaces */] = Interfaces.RunDemo;
+        demoMapping[12 /* TypeCompatibility */] = TypeCompatibility.RunDemo;
+        demoMapping[13 /* FunctionInterfaces */] = FunctionInterfaces.RunDemo;
+        demoMapping[14 /* AmbientDeclarations */] = AmbientDeclarations.RunDemo;
+        demoMapping[15 /* Modules */] = ModuleDemo.RunDemo;
 
         this._demoMapping = demoMapping;
     }

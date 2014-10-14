@@ -11,13 +11,14 @@
 /// <reference path="Demos/Classes/Example.ts" />
 /// <reference path="Demos/Accessors/Example.ts" />
 /// <reference path="Demos/ParameterProperties/Example.ts" />
+/// <reference path="Demos/Inheritance/Example.ts" />
 /// <reference path="Demos/Interfaces/Example.ts" />
 /// <reference path="Demos/TypeCompatibility/Example.ts" />
 /// <reference path="Demos/FunctionInterfaces/Example.ts" />
 /// <reference path="Demos/AmbientDeclarations/Example.ts" />
 /// <reference path="Demos/Modules/Example.ts" />
 
-//#region Demo Setup
+// #region Demo Setup
 
 declare var SyntaxHighlighter;
 
@@ -36,6 +37,7 @@ enum DemoType {
   Classes,
   Accessors,
   ParameterProperties,
+  Inheritance,
   Interfaces,
   TypeCompatibility,
   FunctionInterfaces,
@@ -43,7 +45,7 @@ enum DemoType {
   Modules
 }
 
-//#endregion
+// #endregion
 
 interface ISanityControllerScope extends ng.IScope {
   title: string;
@@ -68,6 +70,10 @@ class SanityController {
     //TODO: Reconnect syntax highlighter
     //target.children("pre").each(e => SyntaxHighlighter.highlight(null, e));
 
+    //$scope.$watch(
+    //  "demoTsSource",
+    //  nv => angular.element("body").each(e => alert(e))); //SyntaxHighlighter.highlight(null, e)));
+
     var demoMapping = {};
     demoMapping[DemoType.ArrowFunctionExpressions] = ArrowFunctionExpressions.RunDemo;
     demoMapping[DemoType.DefaultParameters] = DefaultParameters.RunDemo;
@@ -79,6 +85,7 @@ class SanityController {
     demoMapping[DemoType.Classes] = Classes.RunDemo;
     demoMapping[DemoType.Accessors] = Accessors.RunDemo;
     demoMapping[DemoType.ParameterProperties] = ParameterProperties.RunDemo;
+    demoMapping[DemoType.Inheritance] = Inheritance.RunDemo;
     demoMapping[DemoType.Interfaces] = Interfaces.RunDemo;
     demoMapping[DemoType.TypeCompatibility] = TypeCompatibility.RunDemo;
     demoMapping[DemoType.FunctionInterfaces] = FunctionInterfaces.RunDemo;

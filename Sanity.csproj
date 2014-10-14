@@ -38,6 +38,8 @@
     <Content Include="Demos\DefaultParameters\Description.html" />
     <Content Include="Demos\FunctionInterfaces\Description.html" />
     <Content Include="Demos\FunctionOverloading\Description.html" />
+    <Content Include="Demos\Inheritance\Description.html" />
+    <Content Include="Demos\Inheritance\Example.js" />
     <Content Include="Demos\Interfaces\Description.html" />
     <Content Include="Demos\Modules\Description.html" />
     <Content Include="Demos\OptionalParameters\Description.html" />
@@ -59,6 +61,7 @@
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-sanitize.min.js.map" />
+    <Content Include="Demos\Inheritance\Example.js.map" />
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -81,6 +84,7 @@
     <TypeScriptCompile Include="Demos\DefaultParameters\Example.ts" />
     <TypeScriptCompile Include="Demos\FunctionInterfaces\Example.ts" />
     <TypeScriptCompile Include="Demos\FunctionOverloading\Example.ts" />
+    <TypeScriptCompile Include="Demos\Inheritance\Example.ts" />
     <TypeScriptCompile Include="Demos\Interfaces\Example.ts" />
     <TypeScriptCompile Include="Demos\Modules\Example.ts" />
     <TypeScriptCompile Include="Demos\OptionalParameters\Example.ts" />

@@ -1,5 +1,4 @@
-﻿/// <reference path="Scripts/typings/jquery/jquery.d.ts" />
-/// <reference path="Scripts/typings/bootstrap/bootstrap.d.ts" />
+﻿/// <reference path="Scripts/typings/bootstrap/bootstrap.d.ts" />
 /// <reference path="Scripts/typings/angularjs/angular.d.ts" />
 /// <reference path="Demos/ArrowFunctionExpressions/Example.ts" />
 /// <reference path="Demos/DefaultParameters/Example.ts" />
@@ -56,7 +55,7 @@ interface ISanityControllerScope extends ng.IScope {
 }
 
 class SanityController {
-  private _demoMapping : any;
+  private _demoMapping: any;
 
   constructor(
     private $scope: ISanityControllerScope,
@@ -65,32 +64,25 @@ class SanityController {
     $scope.demoDescription = "<p>Select an example to display the description here</p>";
     $scope.demoTsSource = "<p>Select an example to display the TypeScript Source here</p>";
     $scope.demoJsSource = "<p>Select an example to display the JavaScript Source here</p>";
-    $scope.demoOutput = "<p>Select an example to display the Output here</p>";
-
-    //TODO: Reconnect syntax highlighter
-    //target.children("pre").each(e => SyntaxHighlighter.highlight(null, e));
-
-    //$scope.$watch(
-    //  "demoTsSource",
-    //  nv => angular.element("body").each(e => alert(e))); //SyntaxHighlighter.highlight(null, e)));
+    $scope.demoOutput = "<p>Select an example to dislay the Output here</p>";
 
     var demoMapping = {};
-    demoMapping[DemoType.ArrowFunctionExpressions] = ArrowFunctionExpressions.RunDemo;
-    demoMapping[DemoType.DefaultParameters] = DefaultParameters.RunDemo;
-    demoMapping[DemoType.OptionalParameters] = OptionalParameters.RunDemo;
-    demoMapping[DemoType.RestParameters] = RestParameters.RunDemo;
-    demoMapping[DemoType.FunctionOverloading] = FunctionOverloading.RunDemo;
-    demoMapping[DemoType.StandardEnumerations] = StandardEnumerations.RunDemo;
-    demoMapping[DemoType.ComputedMemberEnums] = ComputedMemberEnums.RunDemo;
-    demoMapping[DemoType.Classes] = Classes.RunDemo;
-    demoMapping[DemoType.Accessors] = Accessors.RunDemo;
-    demoMapping[DemoType.ParameterProperties] = ParameterProperties.RunDemo;
-    demoMapping[DemoType.Inheritance] = Inheritance.RunDemo;
-    demoMapping[DemoType.Interfaces] = Interfaces.RunDemo;
-    demoMapping[DemoType.TypeCompatibility] = TypeCompatibility.RunDemo;
-    demoMapping[DemoType.FunctionInterfaces] = FunctionInterfaces.RunDemo;
-    demoMapping[DemoType.AmbientDeclarations] = AmbientDeclarations.RunDemo;
-    demoMapping[DemoType.Modules] = ModuleDemo.RunDemo;
+    demoMapping[DemoType.ArrowFunctionExpressions] = ArrowFunctionExpressions;
+    demoMapping[DemoType.DefaultParameters] = DefaultParameters;
+    demoMapping[DemoType.OptionalParameters] = OptionalParameters;
+    demoMapping[DemoType.RestParameters] = RestParameters;
+    demoMapping[DemoType.FunctionOverloading] = FunctionOverloading;
+    demoMapping[DemoType.StandardEnumerations] = StandardEnumerations;
+    demoMapping[DemoType.ComputedMemberEnums] = ComputedMemberEnums;
+    demoMapping[DemoType.Classes] = Classes;
+    demoMapping[DemoType.Accessors] = Accessors;
+    demoMapping[DemoType.ParameterProperties] = ParameterProperties;
+    demoMapping[DemoType.Inheritance] = Inheritance;
+    demoMapping[DemoType.Interfaces] = Interfaces;
+    demoMapping[DemoType.TypeCompatibility] = TypeCompatibility;
+    demoMapping[DemoType.FunctionInterfaces] = FunctionInterfaces;
+    demoMapping[DemoType.AmbientDeclarations] = AmbientDeclarations;
+    demoMapping[DemoType.Modules] = ModuleDemo;
 
     this._demoMapping = demoMapping;
   }
@@ -106,7 +98,7 @@ class SanityController {
     { fileName: "Example.js", callback: result => this.$scope.demoJsSource = this.wrapJS(result.data.toString()) }];
 
   private getDemo(demo: DemoType): Action<string> {
-    if (this._demoMapping.hasOwnProperty(demo)) return this._demoMapping[demo];
+    if (this._demoMapping.hasOwnProperty(demo)) return this._demoMapping[demo].RunDemo;
 
     throw "Unknown option";
   }
@@ -116,13 +108,19 @@ class SanityController {
     var demoName = DemoType[type];
 
     this.requests.forEach(
-      r => this.$http.get("Demos/" + demoName + "/" + r.fileName).then(r.callback, error => alert(error))
+      r => this.
+        $http.
+        get("Demos/" + demoName + "/" + r.fileName).
+        then(r.callback, error => alert(error))//.
     );
 
-    this.$scope.demoOutput = this.wrapText(this.getDemo(type));
+    this.$scope.demoOutput = this.wrapText(this.getDemo(type)());
+
+    // Defer activating syntax highlighting until after all requests have completed...hopefully
+    setTimeout(() => angular.element("pre").each(e => SyntaxHighlighter.highlight(null, e)), 1000);
   };
 
-  public handleClick(e, demo : string) {
+  public handleClick(e, demo: string) {
     this.$scope.title = e.target.innerText;
     this.runDemo(DemoType[demo]);
   }

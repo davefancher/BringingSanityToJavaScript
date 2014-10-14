@@ -1,5 +1,4 @@
-﻿/// <reference path="Scripts/typings/jquery/jquery.d.ts" />
-/// <reference path="Scripts/typings/bootstrap/bootstrap.d.ts" />
+﻿/// <reference path="Scripts/typings/bootstrap/bootstrap.d.ts" />
 /// <reference path="Scripts/typings/angularjs/angular.d.ts" />
 /// <reference path="Demos/ArrowFunctionExpressions/Example.ts" />
 /// <reference path="Demos/DefaultParameters/Example.ts" />
@@ -76,42 +75,44 @@ var SanityController = (function () {
                 });
             });
 
-            _this.$scope.demoOutput = _this.wrapText(_this.getDemo(type));
+            _this.$scope.demoOutput = _this.wrapText(_this.getDemo(type)());
+
+            // Defer activating syntax highlighting until after all requests have completed...hopefully
+            setTimeout(function () {
+                return angular.element("pre").each(function (e) {
+                    return SyntaxHighlighter.highlight(null, e);
+                });
+            }, 1000);
         };
         $scope.title = "Bringing Sanity to JavaScript";
         $scope.demoDescription = "<p>Select an example to display the description here</p>";
         $scope.demoTsSource = "<p>Select an example to display the TypeScript Source here</p>";
         $scope.demoJsSource = "<p>Select an example to display the JavaScript Source here</p>";
-        $scope.demoOutput = "<p>Select an example to display the Output here</p>";
+        $scope.demoOutput = "<p>Select an example to dislay the Output here</p>";
 
-        //TODO: Reconnect syntax highlighter
-        //target.children("pre").each(e => SyntaxHighlighter.highlight(null, e));
-        //$scope.$watch(
-        //  "demoTsSource",
-        //  nv => angular.element("body").each(e => alert(e))); //SyntaxHighlighter.highlight(null, e)));
         var demoMapping = {};
-        demoMapping[0 /* ArrowFunctionExpressions */] = ArrowFunctionExpressions.RunDemo;
-        demoMapping[1 /* DefaultParameters */] = DefaultParameters.RunDemo;
-        demoMapping[2 /* OptionalParameters */] = OptionalParameters.RunDemo;
-        demoMapping[3 /* RestParameters */] = RestParameters.RunDemo;
-        demoMapping[4 /* FunctionOverloading */] = FunctionOverloading.RunDemo;
-        demoMapping[5 /* StandardEnumerations */] = StandardEnumerations.RunDemo;
-        demoMapping[6 /* ComputedMemberEnums */] = ComputedMemberEnums.RunDemo;
-        demoMapping[7 /* Classes */] = Classes.RunDemo;
-        demoMapping[8 /* Accessors */] = Accessors.RunDemo;
-        demoMapping[9 /* ParameterProperties */] = ParameterProperties.RunDemo;
-        demoMapping[10 /* Inheritance */] = Inheritance.RunDemo;
-        demoMapping[11 /* Interfaces */] = Interfaces.RunDemo;
-        demoMapping[12 /* TypeCompatibility */] = TypeCompatibility.RunDemo;
-        demoMapping[13 /* FunctionInterfaces */] = FunctionInterfaces.RunDemo;
-        demoMapping[14 /* AmbientDeclarations */] = AmbientDeclarations.RunDemo;
-        demoMapping[15 /* Modules */] = ModuleDemo.RunDemo;
+        demoMapping[0 /* ArrowFunctionExpressions */] = ArrowFunctionExpressions;
+        demoMapping[1 /* DefaultParameters */] = DefaultParameters;
+        demoMapping[2 /* OptionalParameters */] = OptionalParameters;
+        demoMapping[3 /* RestParameters */] = RestParameters;
+        demoMapping[4 /* FunctionOverloading */] = FunctionOverloading;
+        demoMapping[5 /* StandardEnumerations */] = StandardEnumerations;
+        demoMapping[6 /* ComputedMemberEnums */] = ComputedMemberEnums;
+        demoMapping[7 /* Classes */] = Classes;
+        demoMapping[8 /* Accessors */] = Accessors;
+        demoMapping[9 /* ParameterProperties */] = ParameterProperties;
+        demoMapping[10 /* Inheritance */] = Inheritance;
+        demoMapping[11 /* Interfaces */] = Interfaces;
+        demoMapping[12 /* TypeCompatibility */] = TypeCompatibility;
+        demoMapping[13 /* FunctionInterfaces */] = FunctionInterfaces;
+        demoMapping[14 /* AmbientDeclarations */] = AmbientDeclarations;
+        demoMapping[15 /* Modules */] = ModuleDemo;
 
         this._demoMapping = demoMapping;
     }
     SanityController.prototype.getDemo = function (demo) {
         if (this._demoMapping.hasOwnProperty(demo))
-            return this._demoMapping[demo];
+            return this._demoMapping[demo].RunDemo;
 
         throw "Unknown option";
     };

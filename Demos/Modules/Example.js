@@ -1,16 +1,18 @@
 ﻿var RpnCalculator;
 (function (RpnCalculator) {
-    var add = function (x, y) {
-        return x + y;
-    };
-    var subtract = function (x, y) {
-        return x - y;
-    };
-    var multiply = function (x, y) {
-        return x * y;
-    };
-    var divide = function (x, y) {
-        return x / y;
+    var operatorMap = {
+        "+": (function (x, y) {
+            return x + y;
+        }),
+        "-": (function (x, y) {
+            return x - y;
+        }),
+        "*": (function (x, y) {
+            return x * y;
+        }),
+        "/": (function (x, y) {
+            return x / y;
+        })
     };
 
     function applyOperator(items, op) {
@@ -27,14 +29,9 @@
             return applyOperator(stack, op);
         };
 
-        if (value === "+")
-            return apply(add);
-        if (value === "-")
-            return apply(subtract);
-        if (value === "*")
-            return apply(multiply);
-        if (value === "/")
-            return apply(divide);
+        if (operatorMap.hasOwnProperty(value)) {
+            return apply(operatorMap[value]);
+        }
 
         stack.unshift(parseFloat(value));
 

@@ -44,14 +44,13 @@
                         Select An Example <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
+                        <li><a ng-click="Sanity.handleClick($event, 'Modules')">Modules</a></li>
+                        <li class="divider"></li>
                         <li><a ng-click="Sanity.handleClick($event, 'ArrowFunctionExpressions')">Arrow Function Expressions</a></li>
                         <li><a ng-click="Sanity.handleClick($event, 'FunctionOverloading')">Function Overloading</a></li>
                         <li><a ng-click="Sanity.handleClick($event, 'DefaultParameters')">Default Parameters</a></li>
                         <li><a ng-click="Sanity.handleClick($event, 'OptionalParameters')">Optional Parameters</a></li>
                         <li><a ng-click="Sanity.handleClick($event, 'RestParameters')">Rest Parameters</a></li>
-                        <li class="divider"></li>
-                        <li><a ng-click="Sanity.handleClick($event, 'StandardEnumerations')">Standard Enumerations</a></li>
-                        <li><a ng-click="Sanity.handleClick($event, 'ComputedMemberEnums')">Computed Member Enumerations</a></li>
                         <li class="divider"></li>
                         <li><a ng-click="Sanity.handleClick($event, 'Classes')">Classes</a></li>
                         <li><a ng-click="Sanity.handleClick($event, 'Accessors')">Accessors</a></li>
@@ -62,8 +61,10 @@
                         <li><a ng-click="Sanity.handleClick($event, 'TypeCompatibility')">Type Compatibility</a></li>
                         <li><a ng-click="Sanity.handleClick($event, 'FunctionInterfaces')">Function Interfaces</a></li>
                         <li class="divider"></li>
-                        <li><a ng-click="Sanity.handleClick($event, 'Modules')">Modules</a></li>
                         <li><a ng-click="Sanity.handleClick($event, 'AmbientDeclarations')">Ambient Declarations</a></li>
+                        <li class="divider"></li>
+                        <li><a ng-click="Sanity.handleClick($event, 'StandardEnumerations')">Standard Enumerations</a></li>
+                        <li><a ng-click="Sanity.handleClick($event, 'ComputedMemberEnums')">Computed Member Enumerations</a></li>
                     </ul>
                 </div>
             </h1>

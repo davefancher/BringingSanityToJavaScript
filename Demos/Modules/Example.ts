@@ -3,10 +3,12 @@
     (x: T, y: T): T
   }
 
-  var add: BinaryOperator<number> = (x, y) => x + y;
-  var subtract: BinaryOperator<number> = (x, y) => x - y;
-  var multiply: BinaryOperator<number> = (x, y) => x * y;
-  var divide: BinaryOperator<number> = (x, y) => x / y;
+  var operatorMap = {
+    "+": <BinaryOperator<number>>((x, y) => x + y),
+    "-": <BinaryOperator<number>>((x, y) => x - y),
+    "*": <BinaryOperator<number>>((x, y) => x * y),
+    "/": <BinaryOperator<number>>((x, y) => x / y)
+  };
 
   function applyOperator(items: number[], op : BinaryOperator<number>) {
     var y = items.shift();
@@ -20,10 +22,9 @@
   function solveInternal(stack: number[], value: string) {
     var apply = (op: BinaryOperator<number>) => applyOperator(stack, op);
 
-    if (value === "+") return apply(add);
-    if (value === "-") return apply(subtract);
-    if (value === "*") return apply(multiply);
-    if (value === "/") return apply(divide);
+    if (operatorMap.hasOwnProperty(value)) {
+      return apply(operatorMap[value]);
+    }
 
     stack.unshift(parseFloat(value));
 
@@ -37,7 +38,6 @@
 
 module ModuleDemo {
   export function RunDemo() {
-
     return [
         "4 2 5 * + 1 3 2 * + /",
         "5 4 6 + /",

@@ -54,18 +54,18 @@ interface ISanityControllerScope extends ng.IScope {
   demoOutput: string;
 }
 
-class SanityController {
+class DemoService {
+  private static makeRequest($http: ng.IHttpService, type: DemoType, fileName: string) {
+    var demoName = DemoType[type];
+
+    return $http.get("Demos/" + demoName + "/" + fileName);
+  }
+
   private _demoMapping: any;
 
   constructor(
-    private $scope: ISanityControllerScope,
+    private $q: ng.IQService,
     private $http: ng.IHttpService) {
-    $scope.title = "Bringing Sanity to JavaScript";
-    $scope.demoDescription = "<p>Select an example to display the description here</p>";
-    $scope.demoTsSource = "<p>Select an example to display the TypeScript Source here</p>";
-    $scope.demoJsSource = "<p>Select an example to display the JavaScript Source here</p>";
-    $scope.demoOutput = "<p>Select an example to dislay the Output here</p>";
-
     var demoMapping = {};
     demoMapping[DemoType.ArrowFunctionExpressions] = ArrowFunctionExpressions;
     demoMapping[DemoType.DefaultParameters] = DefaultParameters;
@@ -87,44 +87,73 @@ class SanityController {
     this._demoMapping = demoMapping;
   }
 
-  private escape = (text: string) => text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  private wrapText = content => "<pre>" + content + "</pre>";
-  private wrapTS = content => "<pre class=\"brush: ts\" >" + this.escape(content) + "</pre>";
-  private wrapJS = content => "<pre class=\"brush: js\" >" + this.escape(content) + "</pre>";
+  public RunDemo(demo: DemoType) {
+    var deferred = this.$q.defer();
 
-  private requests = [
-    { fileName: "Description.html", callback: result => this.$scope.demoDescription = result.data.toString() },
-    { fileName: "Example.ts", callback: result => this.$scope.demoTsSource = this.wrapTS(result.data.toString()) },
-    { fileName: "Example.js", callback: result => this.$scope.demoJsSource = this.wrapJS(result.data.toString()) }];
+    if (this._demoMapping.hasOwnProperty(demo)) {
+      try {
+        var result = this._demoMapping[demo].RunDemo();
+        deferred.resolve(result);
+      } catch (ex) {
+        deferred.reject(ex);
+      }
+    } else {
+      deferred.reject("Unknown demo type");
+    }
 
-  private getDemo(demo: DemoType): Action<string> {
-    if (this._demoMapping.hasOwnProperty(demo)) return this._demoMapping[demo].RunDemo;
-
-    throw "Unknown option";
+    return deferred.promise;
   }
 
-  private runDemo = (type: DemoType) => {
-    angular.element("#viewTabs a[href=#description]").tab("show");
-    var demoName = DemoType[type];
+  public GetDemoDescription(type: DemoType) {
+    return DemoService.makeRequest(this.$http, type, "Description.html");
+  }
 
-    this.requests.forEach(
-      r => this.
-        $http.
-        get("Demos/" + demoName + "/" + r.fileName).
-        then(r.callback, error => alert(error))//.
-    );
+  public GetDemoTypeScriptSource(type: DemoType) {
+    return DemoService.makeRequest(this.$http, type, "Example.ts");
+  }
 
-    this.$scope.demoOutput = this.wrapText(this.getDemo(type)());
+  public GetDemoJavaScriptSource(type: DemoType) {
+    return DemoService.makeRequest(this.$http, type, "Example.js");
+  }
+}
 
-    // Defer activating syntax highlighting until after all requests have completed...hopefully
-    setTimeout(() => angular.element("pre").each(e => SyntaxHighlighter.highlight(null, e)), 1000);
-  };
+class SanityController {
+  private static escape(text: string) { return text.replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  private static wrapText(content: string) { return "<pre>" + content + "</pre>"; }
+  private static wrapTS(content: string) { return "<pre class=\"brush: ts\" >" + SanityController.escape(content) + "</pre>"; }
+  private static wrapJS(content: string) { return "<pre class=\"brush: js\" >" + SanityController.escape(content) + "</pre>"; }
 
-  public handleClick(e, demo: string) {
+  constructor(
+    private $scope: ISanityControllerScope,
+    private $q: ng.IQService,
+    private demoService: DemoService) {
+    $scope.title = "Bringing Sanity to JavaScript";
+    $scope.demoDescription = "<p>Select an example to display the description here</p>";
+    $scope.demoTsSource = "<p>Select an example to display the TypeScript Source here</p>";
+    $scope.demoJsSource = "<p>Select an example to display the JavaScript Source here</p>";
+    $scope.demoOutput = "<p>Select an example to dislay the Output here</p>";
+  }
+
+  public handleClick(e, demoName: string) {
     this.$scope.title = e.target.innerText;
-    this.runDemo(DemoType[demo]);
+    angular.element("#viewTabs a[href=#description]").tab("show");
+
+    var demo = DemoType[demoName];
+
+    var promises = [
+      this.demoService.GetDemoDescription(demo).then(r => this.$scope.demoDescription = r.data.toString()),
+      this.demoService.GetDemoTypeScriptSource(demo).then(r => this.$scope.demoTsSource = SanityController.wrapTS(r.data.toString())),
+      this.demoService.GetDemoJavaScriptSource(demo).then(r => this.$scope.demoJsSource = SanityController.wrapJS(r.data.toString())),
+      this.demoService.RunDemo(demo).then(r => this.$scope.demoOutput = SanityController.wrapText(r.toString()))
+    ];
+
+    this.$q.all(promises).then(
+      // Delay to allow the $digest loop time to update each of the bindings
+      v => setTimeout(() => angular.element("pre").each(e => SyntaxHighlighter.highlight(null, e)), 100)
+    )
   }
 }
 
 var sanityApp = angular.module("SanityApp", ["ngSanitize"]);
-sanityApp.controller("SanityController", ["$scope", "$http", SanityController]);
+sanityApp.service("demoService", ["$q", "$http", DemoService]);
+sanityApp.controller("SanityController", ["$scope", "$q", "demoService", SanityController]);

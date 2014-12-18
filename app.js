@@ -38,58 +38,10 @@ var DemoType;
 })(DemoType || (DemoType = {}));
 
 
-var SanityController = (function () {
-    function SanityController($scope, $http) {
-        var _this = this;
-        this.$scope = $scope;
+var DemoService = (function () {
+    function DemoService($q, $http) {
+        this.$q = $q;
         this.$http = $http;
-        this.escape = function (text) {
-            return text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        };
-        this.wrapText = function (content) {
-            return "<pre>" + content + "</pre>";
-        };
-        this.wrapTS = function (content) {
-            return "<pre class=\"brush: ts\" >" + _this.escape(content) + "</pre>";
-        };
-        this.wrapJS = function (content) {
-            return "<pre class=\"brush: js\" >" + _this.escape(content) + "</pre>";
-        };
-        this.requests = [
-            { fileName: "Description.html", callback: function (result) {
-                    return _this.$scope.demoDescription = result.data.toString();
-                } },
-            { fileName: "Example.ts", callback: function (result) {
-                    return _this.$scope.demoTsSource = _this.wrapTS(result.data.toString());
-                } },
-            { fileName: "Example.js", callback: function (result) {
-                    return _this.$scope.demoJsSource = _this.wrapJS(result.data.toString());
-                } }];
-        this.runDemo = function (type) {
-            angular.element("#viewTabs a[href=#description]").tab("show");
-            var demoName = DemoType[type];
-
-            _this.requests.forEach(function (r) {
-                return _this.$http.get("Demos/" + demoName + "/" + r.fileName).then(r.callback, function (error) {
-                    return alert(error);
-                });
-            });
-
-            _this.$scope.demoOutput = _this.wrapText(_this.getDemo(type)());
-
-            // Defer activating syntax highlighting until after all requests have completed...hopefully
-            setTimeout(function () {
-                return angular.element("pre").each(function (e) {
-                    return SyntaxHighlighter.highlight(null, e);
-                });
-            }, 1000);
-        };
-        $scope.title = "Bringing Sanity to JavaScript";
-        $scope.demoDescription = "<p>Select an example to display the description here</p>";
-        $scope.demoTsSource = "<p>Select an example to display the TypeScript Source here</p>";
-        $scope.demoJsSource = "<p>Select an example to display the JavaScript Source here</p>";
-        $scope.demoOutput = "<p>Select an example to dislay the Output here</p>";
-
         var demoMapping = {};
         demoMapping[0 /* ArrowFunctionExpressions */] = ArrowFunctionExpressions;
         demoMapping[1 /* DefaultParameters */] = DefaultParameters;
@@ -110,20 +62,101 @@ var SanityController = (function () {
 
         this._demoMapping = demoMapping;
     }
-    SanityController.prototype.getDemo = function (demo) {
-        if (this._demoMapping.hasOwnProperty(demo))
-            return this._demoMapping[demo].RunDemo;
+    DemoService.makeRequest = function ($http, type, fileName) {
+        var demoName = DemoType[type];
 
-        throw "Unknown option";
+        return $http.get("Demos/" + demoName + "/" + fileName);
     };
 
-    SanityController.prototype.handleClick = function (e, demo) {
+    DemoService.prototype.RunDemo = function (demo) {
+        var deferred = this.$q.defer();
+
+        if (this._demoMapping.hasOwnProperty(demo)) {
+            try  {
+                var result = this._demoMapping[demo].RunDemo();
+                deferred.resolve(result);
+            } catch (ex) {
+                deferred.reject(ex);
+            }
+        } else {
+            deferred.reject("Unknown demo type");
+        }
+
+        return deferred.promise;
+    };
+
+    DemoService.prototype.GetDemoDescription = function (type) {
+        return DemoService.makeRequest(this.$http, type, "Description.html");
+    };
+
+    DemoService.prototype.GetDemoTypeScriptSource = function (type) {
+        return DemoService.makeRequest(this.$http, type, "Example.ts");
+    };
+
+    DemoService.prototype.GetDemoJavaScriptSource = function (type) {
+        return DemoService.makeRequest(this.$http, type, "Example.js");
+    };
+    return DemoService;
+})();
+
+var SanityController = (function () {
+    function SanityController($scope, $q, demoService) {
+        this.$scope = $scope;
+        this.$q = $q;
+        this.demoService = demoService;
+        $scope.title = "Bringing Sanity to JavaScript";
+        $scope.demoDescription = "<p>Select an example to display the description here</p>";
+        $scope.demoTsSource = "<p>Select an example to display the TypeScript Source here</p>";
+        $scope.demoJsSource = "<p>Select an example to display the JavaScript Source here</p>";
+        $scope.demoOutput = "<p>Select an example to dislay the Output here</p>";
+    }
+    SanityController.escape = function (text) {
+        return text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    };
+    SanityController.wrapText = function (content) {
+        return "<pre>" + content + "</pre>";
+    };
+    SanityController.wrapTS = function (content) {
+        return "<pre class=\"brush: ts\" >" + SanityController.escape(content) + "</pre>";
+    };
+    SanityController.wrapJS = function (content) {
+        return "<pre class=\"brush: js\" >" + SanityController.escape(content) + "</pre>";
+    };
+
+    SanityController.prototype.handleClick = function (e, demoName) {
+        var _this = this;
         this.$scope.title = e.target.innerText;
-        this.runDemo(DemoType[demo]);
+        angular.element("#viewTabs a[href=#description]").tab("show");
+
+        var demo = DemoType[demoName];
+
+        var promises = [
+            this.demoService.GetDemoDescription(demo).then(function (r) {
+                return _this.$scope.demoDescription = r.data.toString();
+            }),
+            this.demoService.GetDemoTypeScriptSource(demo).then(function (r) {
+                return _this.$scope.demoTsSource = SanityController.wrapTS(r.data.toString());
+            }),
+            this.demoService.GetDemoJavaScriptSource(demo).then(function (r) {
+                return _this.$scope.demoJsSource = SanityController.wrapJS(r.data.toString());
+            }),
+            this.demoService.RunDemo(demo).then(function (r) {
+                return _this.$scope.demoOutput = SanityController.wrapText(r.toString());
+            })
+        ];
+
+        this.$q.all(promises).then(function (v) {
+            return setTimeout(function () {
+                return angular.element("pre").each(function (e) {
+                    return SyntaxHighlighter.highlight(null, e);
+                });
+            }, 100);
+        });
     };
     return SanityController;
 })();
 
 var sanityApp = angular.module("SanityApp", ["ngSanitize"]);
-sanityApp.controller("SanityController", ["$scope", "$http", SanityController]);
+sanityApp.service("demoService", ["$q", "$http", DemoService]);
+sanityApp.controller("SanityController", ["$scope", "$q", "demoService", SanityController]);
 //# sourceMappingURL=app.js.map

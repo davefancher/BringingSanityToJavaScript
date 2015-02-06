@@ -38,6 +38,17 @@ var DemoType;
 })(DemoType || (DemoType = {}));
 
 
+var Demo = (function () {
+    function Demo(title, description, typeScriptSource, javaScriptSource, output) {
+        this.title = title;
+        this.description = description;
+        this.typeScriptSource = typeScriptSource;
+        this.javaScriptSource = javaScriptSource;
+        this.output = output;
+    }
+    return Demo;
+})();
+
 var DemoService = (function () {
     function DemoService($q, $http) {
         this.$q = $q;
@@ -99,16 +110,23 @@ var DemoService = (function () {
     return DemoService;
 })();
 
+var DemoViewer = (function () {
+    function DemoViewer() {
+        this._link = function (scope, elem, attrs) {
+        };
+        this.restrict = "A";
+        this.templateUrl = "Content/DemoViewTemplate.html";
+        this.scope = { selectedDemo: "=demoViewer" };
+        this.link = angular.bind(this, this._link);
+    }
+    return DemoViewer;
+})();
+
 var SanityController = (function () {
-    function SanityController($scope, $q, demoService) {
-        this.$scope = $scope;
+    function SanityController($q, demoService) {
         this.$q = $q;
         this.demoService = demoService;
-        $scope.title = "Bringing Sanity to JavaScript";
-        $scope.demoDescription = "<p>Select an example to display the description here</p>";
-        $scope.demoTsSource = "<p>Select an example to display the TypeScript Source here</p>";
-        $scope.demoJsSource = "<p>Select an example to display the JavaScript Source here</p>";
-        $scope.demoOutput = "<p>Select an example to dislay the Output here</p>";
+        this.selectedDemo = new Demo("Bringing Sanity to JavaScript", "<p>Select an example to display the description here</p>", "<p>Select an example to display the TypeScript Source here</p>", "<p>Select an example to display the JavaScript Source here</p>", "");
     }
     SanityController.escape = function (text) {
         return text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -124,29 +142,24 @@ var SanityController = (function () {
     };
 
     SanityController.prototype.handleClick = function (e, demoName) {
-        var _this = this;
-        this.$scope.title = e.target.innerText;
+        var self = this;
         angular.element("#viewTabs a[href=#description]").tab("show");
 
         var demo = DemoType[demoName];
 
         var promises = [
-            this.demoService.GetDemoDescription(demo).then(function (r) {
-                return _this.$scope.demoDescription = r.data.toString();
-            }),
-            this.demoService.GetDemoTypeScriptSource(demo).then(function (r) {
-                return _this.$scope.demoTsSource = SanityController.wrapTS(r.data.toString());
-            }),
-            this.demoService.GetDemoJavaScriptSource(demo).then(function (r) {
-                return _this.$scope.demoJsSource = SanityController.wrapJS(r.data.toString());
-            }),
-            this.demoService.RunDemo(demo).then(function (r) {
-                return _this.$scope.demoOutput = SanityController.wrapText(r.toString());
-            })
+            this.demoService.GetDemoDescription(demo),
+            this.demoService.GetDemoTypeScriptSource(demo),
+            this.demoService.GetDemoJavaScriptSource(demo),
+            this.demoService.RunDemo(demo)
         ];
 
         this.$q.all(promises).then(function (v) {
-            return setTimeout(function () {
+            self.selectedDemo = new Demo(e.target.innerText, v[0].data.toString(), SanityController.wrapTS(v[1].data.toString()), SanityController.wrapJS(v[2].data.toString()), SanityController.wrapText(v[3].toString()));
+
+            // Delay to allow the $digest loop time to update each of the bindings
+            // before applying the syntax highlighting
+            setTimeout(function () {
                 return angular.element("pre").each(function (e) {
                     return SyntaxHighlighter.highlight(null, e);
                 });
@@ -157,6 +170,7 @@ var SanityController = (function () {
 })();
 
 var sanityApp = angular.module("SanityApp", ["ngSanitize"]);
-sanityApp.service("demoService", ["$q", "$http", DemoService]);
-sanityApp.controller("SanityController", ["$scope", "$q", "demoService", SanityController]);
+sanityApp.service("demoService", ["$q", "$http", DemoService]).directive("demoViewer", [function () {
+        return new DemoViewer();
+    }]).controller("SanityController", ["$q", "demoService", SanityController]);
 //# sourceMappingURL=app.js.map

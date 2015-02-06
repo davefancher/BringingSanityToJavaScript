@@ -24,6 +24,7 @@
     <Content Include="app.css">
       <DependentUpon>app.less</DependentUpon>
     </Content>
+    <Content Include="Content\DemoViewTemplate.html" />
     <Content Include="Content\shCore.css" />
     <Content Include="Content\shThemeDefault.css" />
     <Content Include="Demos\Accessors\Description.html" />

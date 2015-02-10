@@ -1,10 +1,9 @@
-﻿var DefaultParameters;
+var DefaultParameters;
 (function (DefaultParameters) {
     function formatName(first, last, middle) {
-        if (typeof middle === "undefined") { middle = ""; }
+        if (middle === void 0) { middle = ""; }
         return last + ", " + first + (middle !== "" ? " " + middle : "");
     }
-
     function RunDemo() {
         return formatName("John", "Public") + "<br />" + formatName("John", "Public", "Q");
     }

@@ -1,9 +1,8 @@
-﻿var OptionalParameters;
+var OptionalParameters;
 (function (OptionalParameters) {
     function formatName(first, last, middle) {
         return last + ", " + first + (middle ? " " + middle : "");
     }
-
     function RunDemo() {
         return formatName("John", "Public") + "<br />" + formatName("John", "Public", "Q");
     }

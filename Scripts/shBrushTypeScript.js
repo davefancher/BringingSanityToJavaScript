@@ -28,7 +28,7 @@
 						'this throw true try typeof var while with ' +
 						'class interface export import require module ' +
 						'enum constructor declare number string boolean ' +
-                        'any implements public private get set '
+                        'any implements public private get set const'
 						;
 
 		var r = SyntaxHighlighter.regexLib;

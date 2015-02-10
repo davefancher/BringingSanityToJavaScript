@@ -7,6 +7,7 @@
 /// <reference path="Demos/FunctionOverloading/Example.ts" />
 /// <reference path="Demos/StandardEnumerations/Example.ts" />
 /// <reference path="Demos/ComputedMemberEnums/Example.ts" />
+/// <reference path="Demos/ConstEnumerations/Example.ts" />
 /// <reference path="Demos/Classes/Example.ts" />
 /// <reference path="Demos/Accessors/Example.ts" />
 /// <reference path="Demos/ParameterProperties/Example.ts" />
@@ -16,6 +17,8 @@
 /// <reference path="Demos/FunctionInterfaces/Example.ts" />
 /// <reference path="Demos/AmbientDeclarations/Example.ts" />
 /// <reference path="Demos/Modules/Example.ts" />
+/// <reference path="Demos/TemplateStrings/Example.ts" />
+/// <reference path="Demos/UnionTypes/Example.ts" />
 
 // #region Demo Setup
 
@@ -33,6 +36,7 @@ enum DemoType {
   FunctionOverloading,
   StandardEnumerations,
   ComputedMemberEnums,
+  ConstEnumerations,
   Classes,
   Accessors,
   ParameterProperties,
@@ -41,7 +45,9 @@ enum DemoType {
   TypeCompatibility,
   FunctionInterfaces,
   AmbientDeclarations,
-  Modules
+  Modules,
+  TemplateStrings,
+  UnionTypes
 }
 
 // #endregion
@@ -84,6 +90,7 @@ class DemoService {
     demoMapping[DemoType.FunctionOverloading] = FunctionOverloading;
     demoMapping[DemoType.StandardEnumerations] = StandardEnumerations;
     demoMapping[DemoType.ComputedMemberEnums] = ComputedMemberEnums;
+    demoMapping[DemoType.ConstEnumerations] = ConstEnumerations;
     demoMapping[DemoType.Classes] = Classes;
     demoMapping[DemoType.Accessors] = Accessors;
     demoMapping[DemoType.ParameterProperties] = ParameterProperties;
@@ -93,6 +100,8 @@ class DemoService {
     demoMapping[DemoType.FunctionInterfaces] = FunctionInterfaces;
     demoMapping[DemoType.AmbientDeclarations] = AmbientDeclarations;
     demoMapping[DemoType.Modules] = ModuleDemo;
+    demoMapping[DemoType.TemplateStrings] = TemplateStrings;
+    demoMapping[DemoType.UnionTypes] = UnionTypes;
 
     this._demoMapping = demoMapping;
   }

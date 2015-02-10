@@ -1,4 +1,4 @@
-﻿var Classes;
+var Classes;
 (function (Classes) {
     var Circle = (function () {
         function Circle(radius) {
@@ -9,10 +9,8 @@
         };
         return Circle;
     })();
-
     function RunDemo() {
         var c = new Circle(5);
-
         return "The circle's radius is " + c.radius + "<br />" + "The circle's area is " + c.getArea();
     }
     Classes.RunDemo = RunDemo;

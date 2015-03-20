@@ -6,4 +6,3 @@ var ArrowFunctionExpressions;
     }
     ArrowFunctionExpressions.RunDemo = RunDemo;
 })(ArrowFunctionExpressions || (ArrowFunctionExpressions = {}));
-//# sourceMappingURL=Example.js.map

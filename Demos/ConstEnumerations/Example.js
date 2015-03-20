@@ -1,11 +1,5 @@
-var StandardEnumerations;
-(function (StandardEnumerations) {
-    var Shape;
-    (function (Shape) {
-        Shape[Shape["Circle"] = 0] = "Circle";
-        Shape[Shape["Rectangle"] = 1] = "Rectangle";
-        Shape[Shape["Triangle"] = 2] = "Triangle";
-    })(Shape || (Shape = {}));
+var ConstEnumerations;
+(function (ConstEnumerations) {
     function getArea(shape) {
         var dimensions = [];
         for (var _i = 1; _i < arguments.length; _i++) {
@@ -25,5 +19,5 @@ var StandardEnumerations;
     function RunDemo() {
         return "Circle (5) -> " + getArea(0 /* Circle */, 5) + "<br />" + "Rectangle (4, 5) -> " + getArea(1 /* Rectangle */, 4, 5) + "<br />" + "Triangle (3, 4, 5) -> " + getArea(2 /* Triangle */, 3, 4, 5) + "<br />";
     }
-    StandardEnumerations.RunDemo = RunDemo;
-})(StandardEnumerations || (StandardEnumerations = {}));
+    ConstEnumerations.RunDemo = RunDemo;
+})(ConstEnumerations || (ConstEnumerations = {}));

@@ -33,4 +33,3 @@ var Inheritance;
     }
     Inheritance.RunDemo = RunDemo;
 })(Inheritance || (Inheritance = {}));
-//# sourceMappingURL=Example.js.map

@@ -14,4 +14,3 @@ var TypeCompatibility;
     }
     TypeCompatibility.RunDemo = RunDemo;
 })(TypeCompatibility || (TypeCompatibility = {}));
-//# sourceMappingURL=Example.js.map

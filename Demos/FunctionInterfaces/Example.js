@@ -13,4 +13,3 @@ var FunctionInterfaces;
     }
     FunctionInterfaces.RunDemo = RunDemo;
 })(FunctionInterfaces || (FunctionInterfaces = {}));
-//# sourceMappingURL=Example.js.map

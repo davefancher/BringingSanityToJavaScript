@@ -15,4 +15,3 @@ var Interfaces;
     }
     Interfaces.RunDemo = RunDemo;
 })(Interfaces || (Interfaces = {}));
-//# sourceMappingURL=Example.js.map

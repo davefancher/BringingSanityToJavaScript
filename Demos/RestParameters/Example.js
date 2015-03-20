@@ -12,4 +12,3 @@ var RestParameters;
     }
     RestParameters.RunDemo = RunDemo;
 })(RestParameters || (RestParameters = {}));
-//# sourceMappingURL=Example.js.map
